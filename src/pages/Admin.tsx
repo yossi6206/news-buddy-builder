@@ -17,6 +17,7 @@ const Admin = () => {
   const { toast } = useToast();
   const [user, setUser] = useState<User | null>(null);
   const { canManageContent, loading: roleLoading } = useUserRole(user);
+  const [sessionLoading, setSessionLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
@@ -40,20 +41,21 @@ const Admin = () => {
     // THEN get initial session
     supabase.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user ?? null);
+      setSessionLoading(false);
     });
 
     return () => subscription.unsubscribe();
   }, []);
 
   useEffect(() => {
-    // Redirect unauthenticated users to login after roles finish loading
-    if (!roleLoading && !user) {
+    // Redirect unauthenticated users to login after both session and roles finish loading
+    if (!sessionLoading && !roleLoading && !user) {
       navigate('/auth');
       return;
     }
 
-    // Only redirect if: user exists, roles have finished loading, and user doesn't have permission
-    if (user && !roleLoading && !canManageContent) {
+    // Only redirect if: user exists and no permission (after loading)
+    if (!sessionLoading && user && !roleLoading && !canManageContent) {
       toast({
         title: 'אין הרשאה',
         description: 'אין לך הרשאות לגשת לדף זה',
@@ -61,7 +63,7 @@ const Admin = () => {
       });
       navigate('/');
     }
-  }, [canManageContent, roleLoading, navigate, toast, user]);
+  }, [canManageContent, roleLoading, navigate, toast, user, sessionLoading]);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -173,7 +175,7 @@ const Admin = () => {
     }
   };
 
-  if (roleLoading) {
+  if (roleLoading || sessionLoading) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
         <Loader2 className="h-8 w-8 animate-spin text-primary" />
