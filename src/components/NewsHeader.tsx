@@ -68,7 +68,8 @@ const NewsHeader = () => {
                     onClick={() => navigate("/admin")}
                     className="text-white hover:bg-white/20"
                   >
-                    <Settings className="h-4 w-4" />
+                    <Settings className="h-4 w-4 ml-2" />
+                    ניהול תוכן
                   </Button>
                 )}
                 <Button
