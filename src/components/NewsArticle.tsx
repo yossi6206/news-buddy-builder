@@ -8,7 +8,8 @@ interface NewsArticleProps {
   tags?: string[];
   className?: string;
   articleId?: string;
-  style?: React.CSSProperties;
+  id?: string;
+  style?: "compact" | "default";
 }
 
 const getCategoryColor = (category: string) => {
@@ -29,11 +30,49 @@ const NewsArticle = ({
   category, 
   tags = [],
   className,
-  articleId = "1",
-  style
+  articleId,
+  id,
+  style = "default"
 }: NewsArticleProps) => {
+  const finalId = articleId || id || "1";
+  const isCompact = style === "compact";
+  
+  if (isCompact) {
+    return (
+      <Link to={`/article/${articleId}`} className={cn("group cursor-pointer block", className)}>
+        <div className="bg-card overflow-hidden hover:bg-muted/30 transition-colors">
+          <div className="relative overflow-hidden">
+            <img
+              src={image}
+              alt={title}
+              className="w-full h-44 object-cover transition-transform duration-500 group-hover:scale-105"
+            />
+            {category && (
+              <span className={cn(
+                getCategoryColor(category),
+                "absolute bottom-2 right-2 text-white px-2 py-1 text-[10px] font-bold"
+              )}>
+                {category}
+              </span>
+            )}
+          </div>
+          <div className="p-3">
+            <h3 className="text-sm font-bold leading-tight group-hover:text-primary transition-colors line-clamp-3 mb-2">
+              {title}
+            </h3>
+            <div className="flex items-center gap-2 text-[11px] text-muted-foreground">
+              <span className="text-red-600 font-medium">22:10</span>
+              <span>|</span>
+              <span>נדב משלבי</span>
+            </div>
+          </div>
+        </div>
+      </Link>
+    );
+  }
+  
   return (
-    <Link to={`/article/${articleId}`} className={cn("group cursor-pointer animate-fade-in block", className)} style={style}>
+    <Link to={`/article/${articleId}`} className={cn("group cursor-pointer animate-fade-in block", className)}>
       <div className="bg-card rounded-lg overflow-hidden article-hover" style={{ boxShadow: 'var(--shadow-article)' }}>
         <div className="relative overflow-hidden">
           <img

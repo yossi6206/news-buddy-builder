@@ -29,38 +29,47 @@ const UpdatesSidebar = () => {
   ];
 
   return (
-    <aside className="w-80 gradient-primary text-updates-foreground p-6 flex-shrink-0 hidden lg:block sticky top-20 h-fit">
-      <div className="flex items-center gap-2 mb-6">
-        <Clock className="h-6 w-6" />
-        <h2 className="text-2xl font-bold">עדכונים שוטפים</h2>
+    <aside className="w-[320px] bg-card flex-shrink-0 hidden lg:block sticky top-20 h-fit border border-border rounded-sm">
+      {/* Header */}
+      <div className="bg-primary text-primary-foreground p-3 flex items-center gap-2">
+        <div className="bg-white text-primary rounded-sm p-1">
+          <Clock className="h-4 w-4" />
+        </div>
+        <h2 className="text-base font-bold">איש הכתבים</h2>
       </div>
-      <div className="space-y-4">
+
+      {/* Updates List */}
+      <div className="p-3 space-y-3 max-h-[600px] overflow-y-auto">
         {updates.map((update, index) => (
           <div
             key={index}
-            className="bg-updates-item-bg text-foreground p-4 rounded-lg hover:shadow-xl transition-all duration-300 cursor-pointer border-r-4 border-primary animate-slide-up"
-            style={{ animationDelay: `${index * 0.1}s` }}
+            className="border-b border-border pb-3 last:border-0 hover:bg-muted/50 transition-colors cursor-pointer"
           >
-            <div className="flex items-center justify-between mb-2">
-              <div className="flex items-center gap-2">
-                <span className="text-xs font-bold text-primary">{update.author}</span>
-                {update.isLive && (
-                  <span className="flex items-center gap-1 text-[10px] bg-red-500 text-white px-2 py-0.5 rounded-full animate-pulse-slow">
-                    <span className="w-1.5 h-1.5 bg-white rounded-full"></span>
-                    LIVE
-                  </span>
-                )}
+            <div className="flex items-start gap-2 mb-2">
+              <div className="w-8 h-8 rounded-full bg-muted flex-shrink-0 overflow-hidden">
+                <div className="w-full h-full bg-gradient-to-br from-primary/20 to-primary/5" />
               </div>
-              <span className="text-xs text-muted-foreground">{update.time}</span>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="text-xs font-bold text-primary">{update.author}</span>
+                  {update.isLive && (
+                    <span className="flex items-center gap-1 text-[9px] bg-red-500 text-white px-1.5 py-0.5 rounded-sm font-bold">
+                      דוח חיוני
+                    </span>
+                  )}
+                </div>
+                <p className="text-xs leading-snug text-foreground">{update.title}</p>
+                <span className="text-[10px] text-red-600 font-medium mt-1 inline-block">{update.time}</span>
+              </div>
             </div>
-            <p className="text-sm leading-relaxed font-medium">{update.title}</p>
           </div>
         ))}
       </div>
       
-      <div className="mt-6 pt-6 border-t border-white/20">
-        <button className="w-full bg-white text-primary font-bold py-3 rounded-lg hover:bg-white/90 transition-colors">
-          צפה בכל העדכונים
+      {/* Footer Button */}
+      <div className="p-3 border-t border-border">
+        <button className="w-full bg-primary text-primary-foreground font-bold py-2 text-sm rounded-sm hover:bg-primary/90 transition-colors">
+          לכל ההודעות
         </button>
       </div>
     </aside>

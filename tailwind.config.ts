@@ -56,6 +56,13 @@ export default {
         "updates-foreground": "hsl(var(--updates-foreground))",
         "updates-item-bg": "hsl(var(--updates-item-bg))",
         "article-time": "hsl(var(--article-time))",
+        "breaking-news": "hsl(var(--breaking-news))",
+        "category-politics": "hsl(var(--category-politics))",
+        "category-security": "hsl(var(--category-security))",
+        "category-world": "hsl(var(--category-world))",
+        "category-economy": "hsl(var(--category-economy))",
+        "category-tech": "hsl(var(--category-tech))",
+        "category-sport": "hsl(var(--category-sport))",
       },
       borderRadius: {
         lg: "var(--radius)",
