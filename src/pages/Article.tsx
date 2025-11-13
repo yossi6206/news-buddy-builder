@@ -8,12 +8,16 @@ import CommentsSection from "@/components/CommentsSection";
 import heroImage from "@/assets/hero-news.jpg";
 import politicsImage from "@/assets/politics-news.jpg";
 import breakingImage from "@/assets/breaking-news.jpg";
+import internationalImage from "@/assets/international-news.jpg";
+import economyImage from "@/assets/economy-news.jpg";
+import techImage from "@/assets/tech-news.jpg";
 
 const Article = () => {
   const { id } = useParams();
 
-  const articles: Record<string, any> = {
-    "1": {
+  const allArticles = [
+    {
+      id: "1",
       title: "מכה גדולה לישראל: הנחת התדמיתי החדש אחרי מלחמת עזה",
       subtitle: "הצבא מדווח על הצלחות מבצעיות אך המחיר האנושי עדיין כבד",
       image: heroImage,
@@ -22,8 +26,10 @@ const Article = () => {
       date: "13 נובמבר 2025, 15:30",
       views: "15.2K",
       comments: 234,
+      tags: ["עזה", "צהל"],
     },
-    "2": {
+    {
+      id: "2",
       title: "פגישת ראש הממשלה עם שרי הממשלה בנושא המצב הביטחוני",
       image: politicsImage,
       category: "פוליטי",
@@ -31,37 +37,225 @@ const Article = () => {
       date: "13 נובמבר 2025, 14:20",
       views: "8.5K",
       comments: 156,
+      tags: ["ממשלה", "ביטחון", "נתניהו"],
     },
-  };
-
-  const article = articles[id || "1"] || articles["1"];
-
-  const relatedArticles = [
     {
+      id: "3",
       title: "דיווח חדש: מכה גדולה לישראל - חמאס מסרב לשחרר חטופים נוספים",
       image: breakingImage,
       category: "ביטחוני",
-      tags: ["חטופים", "עזה"],
+      author: "דני רביב",
+      date: "13 נובמבר 2025, 13:00",
+      views: "12.3K",
+      comments: 189,
+      tags: ["חטופים", "עזה", "דחוף"],
     },
     {
+      id: "4",
       title: "הנשיא האמריקאי דן עם מנהיגי העולם על המצב במזרח התיכון",
-      image: politicsImage,
+      image: internationalImage,
       category: "בעולם",
-      tags: ["דיפלומטיה"],
+      author: "מיכל גולן",
+      date: "13 נובמבר 2025, 12:45",
+      views: "9.7K",
+      comments: 145,
+      tags: ["ארה\"ב", "דיפלומטיה", "עולם"],
     },
     {
-      title: "צה\"ל מכריז על סיום מבצע רחב היקף בצפון הרצועה",
-      image: breakingImage,
-      category: "ביטחוני",
-      tags: ["צהל", "מבצע"],
+      id: "5",
+      title: "שוק ההון בתנודות חדות: המשקיעים חוששים ממיתון כלכלי",
+      image: economyImage,
+      category: "כלכלה",
+      author: "יוסי שטרן",
+      date: "13 נובמבר 2025, 11:30",
+      views: "7.8K",
+      comments: 98,
+      tags: ["בורסה", "כלכלה", "שוק"],
     },
     {
-      title: "משלחת ישראלית נוסעת למצרים לשיחות בנושא החטופים",
+      id: "6",
+      title: "חדשנות ישראלית: סטארט-אפ מקומי מפתח טכנולוגיה פורצת דרך",
+      image: techImage,
+      category: "מדעי",
+      author: "רונית אבני",
+      date: "13 נובמבר 2025, 10:15",
+      views: "6.5K",
+      comments: 76,
+      tags: ["סטארטאפ", "טכנולוגיה", "חדשנות"],
+    },
+    {
+      id: "7",
+      title: "מפעל אינטל בקריית גת מרחיב פעילות: 2,000 משרות חדשות",
+      image: techImage,
+      category: "כלכלה",
+      author: "אבי נחמיאס",
+      date: "13 נובמבר 2025, 09:45",
+      views: "8.9K",
+      comments: 112,
+      tags: ["תעסוקה", "הייטק", "קריית גת"],
+    },
+    {
+      id: "8",
+      title: "משרד החינוך מכריז על רפורמה חדשה בבתי הספר התיכוניים",
       image: politicsImage,
       category: "פוליטי",
-      tags: ["מצרים", "משא ומתן"],
+      author: "דנה לוי",
+      date: "13 נובמבר 2025, 08:30",
+      views: "5.6K",
+      comments: 87,
+      tags: ["חינוך", "רפורמה", "בתי ספר"],
+    },
+    {
+      id: "9",
+      title: "נבחרת ישראל בכדורסל עלתה לגמר אליפות אירופה",
+      image: breakingImage,
+      category: "ספורט",
+      author: "עמוס ברק",
+      date: "13 נובמבר 2025, 22:00",
+      views: "18.4K",
+      comments: 267,
+      tags: ["כדורסל", "ספורט", "אליפות"],
+    },
+    {
+      id: "10",
+      title: "משבר דיפלומטי: ישראל מזמנת את שגריר צרפת להבהרות",
+      image: internationalImage,
+      category: "בעולם",
+      author: "תמר גל",
+      date: "13 נובמבר 2025, 16:20",
+      views: "11.2K",
+      comments: 178,
+      tags: ["דיפלומטיה", "צרפת", "משבר"],
+    },
+    {
+      id: "11",
+      title: "מחקר חדש: תרופה ישראלית מוכיחה יעילות בטיפול בסרטן",
+      image: techImage,
+      category: "מדעי",
+      author: "פרופ' שרון כהן",
+      date: "13 נובמבר 2025, 14:00",
+      views: "13.7K",
+      comments: 201,
+      tags: ["רפואה", "מחקר", "סרטן"],
+    },
+    {
+      id: "12",
+      title: "המחאה ממשיכה: אלפים מפגינים מול הכנסת נגד הרפורמה המשפטית",
+      image: politicsImage,
+      category: "פוליטי",
+      author: "גל אברהם",
+      date: "13 נובמבר 2025, 19:30",
+      views: "16.8K",
+      comments: 289,
+      tags: ["מחאה", "רפורמה", "דמוקרטיה"],
+    },
+    {
+      id: "13",
+      title: "מזג האויר: גל חום קיצוני צפוי במרכז הארץ בסוף השבוע",
+      image: economyImage,
+      category: "בעולם",
+      author: "אורי זמיר",
+      date: "13 נובמבר 2025, 07:00",
+      views: "4.2K",
+      comments: 45,
+      tags: ["מזג אוויר", "חום", "קיץ"],
+    },
+    {
+      id: "14",
+      title: "משרד האוצר מציג תוכנית חדשה להקלות במס לעסקים קטנים",
+      image: economyImage,
+      category: "כלכלה",
+      author: "רחל שפירא",
+      date: "13 נובמבר 2025, 10:45",
+      views: "6.3K",
+      comments: 72,
+      tags: ["מיסים", "עסקים", "אוצר"],
+    },
+    {
+      id: "15",
+      title: "רכבת ישראל משיקה קו חדש: תל אביב-אילת תוך 3 שעות",
+      image: techImage,
+      category: "מדעי",
+      author: "יעקב רון",
+      date: "13 נובמבר 2025, 11:15",
+      views: "9.1K",
+      comments: 134,
+      tags: ["תחבורה", "רכבת", "אילת"],
+    },
+    {
+      id: "16",
+      title: "ביקורת המדינה: ליקויים חמורים בניהול משבר הקורונה",
+      image: politicsImage,
+      category: "פוליטי",
+      author: "נועה ברק",
+      date: "13 נובמבר 2025, 13:40",
+      views: "10.5K",
+      comments: 156,
+      tags: ["ביקורת", "קורונה", "ממשלה"],
+    },
+    {
+      id: "17",
+      title: "גל התייקרות: מחירי הדלק עלו ב-8% החודש",
+      image: economyImage,
+      category: "כלכלה",
+      author: "משה לביא",
+      date: "13 נובמבר 2025, 08:00",
+      views: "7.9K",
+      comments: 103,
+      tags: ["מחירים", "דלק", "התייקרות"],
+    },
+    {
+      id: "18",
+      title: "האו\"ם דן היום בהצעה ישראלית לסיום המלחמה בעזה",
+      image: internationalImage,
+      category: "בעולם",
+      author: "ליאור כץ",
+      date: "13 נובמבר 2025, 15:15",
+      views: "14.6K",
+      comments: 223,
+      tags: ["אום", "עזה", "מלחמה"],
+    },
+    {
+      id: "19",
+      title: "מכבי תל אביב מנצחת את ריאל מדריד במשחק מרגש",
+      image: breakingImage,
+      category: "ספורט",
+      author: "יוסי בניזרי",
+      date: "13 נובמבר 2025, 21:30",
+      views: "22.1K",
+      comments: 341,
+      tags: ["כדורסל", "מכבי תל אביב", "יורוליג"],
+    },
+    {
+      id: "20",
+      title: "הפועל ירושלים עולה למקום הראשון בליגה",
+      image: politicsImage,
+      category: "ספורט",
+      author: "דני רוזן",
+      date: "13 נובמבר 2025, 23:15",
+      views: "17.3K",
+      comments: 198,
+      tags: ["כדורגל", "הפועל ירושלים", "ליגה"],
+    },
+    {
+      id: "21",
+      title: "נבחרת הנוער זוכה בגביע אליפות אסיה",
+      image: techImage,
+      category: "ספורט",
+      author: "מיכאל בן דוד",
+      date: "13 נובמבר 2025, 20:00",
+      views: "19.8K",
+      comments: 256,
+      tags: ["נבחרת נוער", "כדורגל", "אסיה"],
     },
   ];
+
+  const article = allArticles.find((a) => a.id === id) || allArticles[0];
+
+  // Filter related articles by the same category as the current article
+  const relatedArticles = allArticles
+    .filter((a) => a.id !== id && a.category === article.category)
+    .slice(0, 4);
 
   return (
     <div className="min-h-screen bg-background">
