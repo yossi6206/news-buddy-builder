@@ -11,6 +11,7 @@ import StockMarketWidget from "@/components/StockMarketWidget";
 import LiveVideoSection from "@/components/LiveVideoSection";
 import CategorySection from "@/components/CategorySection";
 import TrendingTopics from "@/components/TrendingTopics";
+import CategoryNewsSection from "@/components/CategoryNewsSection";
 import heroImage from "@/assets/hero-news.jpg";
 import politicsImage from "@/assets/politics-news.jpg";
 import breakingImage from "@/assets/breaking-news.jpg";
@@ -286,6 +287,18 @@ const Index = () => {
     published_at: new Date().toISOString(),
   };
 
+  // Group articles by category
+  const articlesByCategory = displayArticles.reduce((acc, article) => {
+    if (!acc[article.category]) {
+      acc[article.category] = [];
+    }
+    acc[article.category].push(article);
+    return acc;
+  }, {} as Record<string, Article[]>);
+
+  // Define category order
+  const categoryOrder = ['ביטחוני', 'פוליטי', 'בעולם', 'כלכלה', 'מדעי', 'ספורט'];
+
   // Helper function to get image fallback
   const getImageUrl = (article: Article | typeof displayFeatured) => {
     if (article.image_url) return article.image_url;
@@ -341,49 +354,33 @@ const Index = () => {
                 )}
               </div>
 
-              {/* Articles Grid - 4 columns */}
+              {/* Category Sections */}
               {loading ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-                  {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
-                    <div key={i} className="h-72 bg-muted animate-pulse" />
+                <div className="space-y-8">
+                  {[1, 2, 3].map((i) => (
+                    <div key={i} className="space-y-4">
+                      <div className="h-8 w-32 bg-muted animate-pulse rounded" />
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                        {[1, 2, 3, 4].map((j) => (
+                          <div key={j} className="h-72 bg-muted animate-pulse rounded" />
+                        ))}
+                      </div>
+                    </div>
                   ))}
                 </div>
               ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-                  {displayArticles.slice(0, 8).map((article) => (
-                    <NewsArticle
-                      key={article.id}
-                      title={article.title}
-                      image={getImageUrl(article)}
-                      category={article.category}
-                      tags={[article.category]}
-                      articleId={article.id}
-                      style="compact"
-                      authorName={article.author_name}
-                      publishedAt={article.published_at}
-                    />
-                  ))}
-                </div>
-              )}
-
-              {/* More Articles Section */}
-              {displayArticles.length > 8 && (
-                <div className="mt-8">
-                  <h2 className="text-xl font-bold mb-4 text-foreground">עוד כתבות</h2>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {displayArticles.slice(8).map((article) => (
-                      <NewsArticle
-                        key={article.id}
-                        title={article.title}
-                        image={getImageUrl(article)}
-                        category={article.category}
-                        tags={[article.category]}
-                        articleId={article.id}
-                        authorName={article.author_name}
-                        publishedAt={article.published_at}
+                <div className="space-y-8">
+                  {categoryOrder.map((category) => (
+                    articlesByCategory[category] && (
+                      <CategoryNewsSection
+                        key={category}
+                        category={category}
+                        articles={articlesByCategory[category]}
+                        getImageUrl={getImageUrl}
+                        maxArticles={4}
                       />
-                    ))}
-                  </div>
+                    )
+                  ))}
                 </div>
               )}
             </div>
