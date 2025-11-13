@@ -6,6 +6,11 @@ import UpdatesSidebar from "@/components/UpdatesSidebar";
 import HeroArticle from "@/components/HeroArticle";
 import NewsArticle from "@/components/NewsArticle";
 import NewsFooter from "@/components/NewsFooter";
+import WeatherWidget from "@/components/WeatherWidget";
+import StockMarketWidget from "@/components/StockMarketWidget";
+import LiveVideoSection from "@/components/LiveVideoSection";
+import CategorySection from "@/components/CategorySection";
+import TrendingTopics from "@/components/TrendingTopics";
 import heroImage from "@/assets/hero-news.jpg";
 import politicsImage from "@/assets/politics-news.jpg";
 import breakingImage from "@/assets/breaking-news.jpg";
@@ -253,24 +258,51 @@ const Index = () => {
       <NewsHeader />
       <BreakingNewsTicker />
 
-      <div className="flex">
-        {/* Main Content */}
-        <main className="flex-1 container mx-auto px-4 py-6">
-          {/* Hero Article */}
-          <div className="mb-8">
+      <div className="container mx-auto px-4 py-8">
+        {/* Category Navigation */}
+        <CategorySection />
+
+        {displayFeatured && (
+          <div className="mb-8 animate-fade-in">
             <HeroArticle
               title={displayFeatured.title}
-              subtitle={displayFeatured.subtitle || ''}
+              subtitle={displayFeatured.subtitle || ""}
               image={getImageUrl(displayFeatured)}
               articleId={displayFeatured.id}
             />
           </div>
+        )}
 
-          {/* Hot Section */}
-          <div className="mb-8 p-4 bg-gradient-to-r from-primary/10 to-transparent rounded-lg border-r-4 border-primary">
-            <h2 className="text-xl font-bold mb-4 flex items-center gap-2">🔥 החמות ביותר כעת</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {displayArticles.slice(0, 3).map((article) => (
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
+          {/* Main Content */}
+          <div className="lg:col-span-2">
+            {/* Widgets Row */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+              <WeatherWidget />
+              <StockMarketWidget />
+            </div>
+
+            {/* Hot Section */}
+            <div className="mb-8 p-4 bg-gradient-to-r from-primary/10 to-transparent rounded-lg border-r-4 border-primary">
+              <h2 className="text-xl font-bold mb-4 flex items-center gap-2">🔥 החמות ביותר כעת</h2>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {displayArticles.slice(0, 3).map((article) => (
+                  <NewsArticle
+                    key={article.id}
+                    title={article.title}
+                    image={getImageUrl(article)}
+                    category={article.category}
+                    tags={[article.category]}
+                    articleId={article.id}
+                  />
+                ))}
+              </div>
+            </div>
+
+            {/* Articles Grid */}
+            <h2 className="text-2xl font-bold mb-6">כל החדשות</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {displayArticles.slice(3, 11).map((article, index) => (
                 <NewsArticle
                   key={article.id}
                   title={article.title}
@@ -278,41 +310,41 @@ const Index = () => {
                   category={article.category}
                   tags={[article.category]}
                   articleId={article.id}
+                  className="animate-fade-in"
+                  style={{ animationDelay: `${index * 0.1}s` }}
                 />
               ))}
             </div>
           </div>
 
-          {/* Article Grid */}
-          <h2 className="text-2xl font-bold mb-6">כל החדשות</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {displayArticles.map((article) => (
-              <NewsArticle
-                key={article.id}
-                title={article.title}
-                image={getImageUrl(article)}
-                category={article.category}
-                tags={[article.category]}
-                articleId={article.id}
-              />
-            ))}
-          </div>
+          {/* Right Sidebar */}
+          <aside className="space-y-6">
+            <LiveVideoSection />
+            <TrendingTopics />
+            <UpdatesSidebar />
+          </aside>
+        </div>
 
-          {/* Additional Articles Row */}
-          <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
-            <NewsArticle
-              title="ראש הממשלה: 'נמשיך במאמצים להחזרת כל החטופים הביתה'"
-              image={politicsImage}
-              category="פוליטי"
-              tags={["נתניהו", "חטופים"]}
-              articleId="2"
-              className="md:col-span-2"
-            />
+        {/* More Articles Section */}
+        {displayArticles.length > 11 && (
+          <div className="border-t pt-8">
+            <h2 className="text-2xl font-bold mb-6 text-foreground">עוד חדשות</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {displayArticles.slice(11).map((article, index) => (
+                <NewsArticle
+                  key={article.id}
+                  title={article.title}
+                  image={getImageUrl(article)}
+                  category={article.category}
+                  tags={[article.category]}
+                  articleId={article.id}
+                  className="animate-fade-in"
+                  style={{ animationDelay: `${index * 0.1}s` }}
+                />
+              ))}
+            </div>
           </div>
-        </main>
-
-        {/* Updates Sidebar */}
-        <UpdatesSidebar />
+        )}
       </div>
 
       <NewsFooter />
