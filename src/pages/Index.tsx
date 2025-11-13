@@ -254,98 +254,78 @@ const Index = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen flex flex-col bg-background">
       <NewsHeader />
       <BreakingNewsTicker />
-
-      <div className="container mx-auto px-4 py-8">
-        {/* Category Navigation */}
-        <CategorySection />
-
-        {displayFeatured && (
-          <div className="mb-8 animate-fade-in">
-            <HeroArticle
-              title={displayFeatured.title}
-              subtitle={displayFeatured.subtitle || ""}
-              image={getImageUrl(displayFeatured)}
-              articleId={displayFeatured.id}
-            />
-          </div>
-        )}
-
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
-          {/* Main Content */}
-          <div className="lg:col-span-2">
-            {/* Widgets Row */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-              <WeatherWidget />
-              <StockMarketWidget />
-            </div>
-
-            {/* Hot Section */}
-            <div className="mb-8 p-4 bg-gradient-to-r from-primary/10 to-transparent rounded-lg border-r-4 border-primary">
-              <h2 className="text-xl font-bold mb-4 flex items-center gap-2">🔥 החמות ביותר כעת</h2>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                {displayArticles.slice(0, 3).map((article) => (
-                  <NewsArticle
-                    key={article.id}
-                    title={article.title}
-                    image={getImageUrl(article)}
-                    category={article.category}
-                    tags={[article.category]}
-                    articleId={article.id}
+      
+      <main className="flex-1">
+        <div className="container mx-auto px-4 py-6">
+          {/* Main Layout with Sidebar */}
+          <div className="flex gap-6">
+            {/* Main Content */}
+            <div className="flex-1">
+              {/* Hero Article */}
+              <div className="mb-6">
+                {loading ? (
+                  <div className="h-[380px] bg-muted animate-pulse" />
+                ) : (
+                  <HeroArticle
+                    title={displayFeatured.title}
+                    subtitle={displayFeatured.subtitle || ""}
+                    image={getImageUrl(displayFeatured)}
+                    articleId={displayFeatured.id}
                   />
-                ))}
+                )}
               </div>
+
+              {/* Articles Grid - 4 columns */}
+              {loading ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                  {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
+                    <div key={i} className="h-72 bg-muted animate-pulse" />
+                  ))}
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                  {displayArticles.slice(0, 8).map((article) => (
+                    <NewsArticle
+                      key={article.id}
+                      title={article.title}
+                      image={getImageUrl(article)}
+                      category={article.category}
+                      tags={[article.category]}
+                      articleId={article.id}
+                      style="compact"
+                    />
+                  ))}
+                </div>
+              )}
+
+              {/* More Articles Section */}
+              {displayArticles.length > 8 && (
+                <div className="mt-8">
+                  <h2 className="text-xl font-bold mb-4 text-foreground">עוד כתבות</h2>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {displayArticles.slice(8).map((article) => (
+                      <NewsArticle
+                        key={article.id}
+                        title={article.title}
+                        image={getImageUrl(article)}
+                        category={article.category}
+                        tags={[article.category]}
+                        articleId={article.id}
+                      />
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
 
-            {/* Articles Grid */}
-            <h2 className="text-2xl font-bold mb-6">כל החדשות</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {displayArticles.slice(3, 11).map((article, index) => (
-                <NewsArticle
-                  key={article.id}
-                  title={article.title}
-                  image={getImageUrl(article)}
-                  category={article.category}
-                  tags={[article.category]}
-                  articleId={article.id}
-                  className="animate-fade-in"
-                  style={{ animationDelay: `${index * 0.1}s` }}
-                />
-              ))}
-            </div>
-          </div>
-
-          {/* Right Sidebar */}
-          <aside className="space-y-6">
-            <LiveVideoSection />
-            <TrendingTopics />
+            {/* Updates Sidebar - Right Side */}
             <UpdatesSidebar />
-          </aside>
-        </div>
-
-        {/* More Articles Section */}
-        {displayArticles.length > 11 && (
-          <div className="border-t pt-8">
-            <h2 className="text-2xl font-bold mb-6 text-foreground">עוד חדשות</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {displayArticles.slice(11).map((article, index) => (
-                <NewsArticle
-                  key={article.id}
-                  title={article.title}
-                  image={getImageUrl(article)}
-                  category={article.category}
-                  tags={[article.category]}
-                  articleId={article.id}
-                  className="animate-fade-in"
-                  style={{ animationDelay: `${index * 0.1}s` }}
-                />
-              ))}
-            </div>
           </div>
-        )}
-      </div>
+        </div>
+      </main>
 
       <NewsFooter />
     </div>
