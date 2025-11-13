@@ -32,7 +32,7 @@ const Index = () => {
       title: "הנשיא האמריקאי דן עם מנהיגי העולם על המצב במזרח התיכון",
       image: internationalImage,
       category: "בעולם",
-      tags: ["ארה\"ב", "דיפלומטיה", "עולם"],
+      tags: ['ארה"ב', "דיפלומטיה", "עולם"],
     },
     {
       id: "5",
@@ -127,7 +127,7 @@ const Index = () => {
     },
     {
       id: "18",
-      title: "האו\"ם דן היום בהצעה ישראלית לסיום המלחמה בעזה",
+      title: 'האו"ם דן היום בהצעה ישראלית לסיום המלחמה בעזה',
       image: internationalImage,
       category: "בעולם",
       tags: ["אום", "עזה", "מלחמה"],
@@ -159,14 +159,14 @@ const Index = () => {
     <div className="min-h-screen bg-background">
       <NewsHeader />
       <BreakingNewsTicker />
-      
+
       <div className="flex">
         {/* Main Content */}
         <main className="flex-1 container mx-auto px-4 py-6">
           {/* Hero Article */}
           <div className="mb-8">
             <HeroArticle
-              title="מכה גדולה לישראל: הנחת התדמיתי החדש אחרי מלחמת עזה"
+              title="מכה גדולה לישראל: הנחת התדמיתי החדש אחרי מלחמת "
               subtitle="הצבא מדווח על הצלחות מבצעיות אך המחיר האנושי עדיין כבד"
               image={heroImage}
               articleId="1"
@@ -175,9 +175,7 @@ const Index = () => {
 
           {/* Hot Section */}
           <div className="mb-8 p-4 bg-gradient-to-r from-primary/10 to-transparent rounded-lg border-r-4 border-primary">
-            <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
-              🔥 החמות ביותר כעת
-            </h2>
+            <h2 className="text-xl font-bold mb-4 flex items-center gap-2">🔥 החמות ביותר כעת</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {articles.slice(0, 3).map((article, index) => (
                 <NewsArticle
@@ -223,7 +221,7 @@ const Index = () => {
         {/* Updates Sidebar */}
         <UpdatesSidebar />
       </div>
-      
+
       <NewsFooter />
     </div>
   );
