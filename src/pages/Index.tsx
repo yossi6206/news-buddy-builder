@@ -26,6 +26,7 @@ interface Article {
   category: string;
   is_featured: boolean;
   published_at: string;
+  author_name?: string;
 }
 
 const Index = () => {
@@ -78,6 +79,9 @@ const Index = () => {
       image: politicsImage,
       category: "פוליטי",
       tags: ["ממשלה", "ביטחון", "נתניהו"],
+      author_name: "עמית סגל",
+      published_at: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
+      is_featured: false,
     },
     {
       id: "3",
@@ -85,6 +89,9 @@ const Index = () => {
       image: breakingImage,
       category: "ביטחוני",
       tags: ["חטופים", "עזה", "דחוף"],
+      author_name: "רון בן ישי",
+      published_at: new Date(Date.now() - 30 * 60 * 1000).toISOString(),
+      is_featured: false,
     },
     {
       id: "4",
@@ -92,6 +99,9 @@ const Index = () => {
       image: internationalImage,
       category: "בעולם",
       tags: ['ארה"ב', "דיפלומטיה", "עולם"],
+      author_name: "אורלי וילנאי",
+      published_at: new Date(Date.now() - 5 * 60 * 60 * 1000).toISOString(),
+      is_featured: false,
     },
     {
       id: "5",
@@ -99,6 +109,9 @@ const Index = () => {
       image: economyImage,
       category: "כלכלה",
       tags: ["בורסה", "כלכלה", "שוק"],
+      author_name: "שי גולדן",
+      published_at: new Date(Date.now() - 3 * 60 * 60 * 1000).toISOString(),
+      is_featured: false,
     },
     {
       id: "6",
@@ -106,6 +119,9 @@ const Index = () => {
       image: techImage,
       category: "מדעי",
       tags: ["סטארטאפ", "טכנולוגיה", "חדשנות"],
+      author_name: "טל שניידר",
+      published_at: new Date(Date.now() - 4 * 60 * 60 * 1000).toISOString(),
+      is_featured: false,
     },
     {
       id: "7",
@@ -113,6 +129,9 @@ const Index = () => {
       image: techImage,
       category: "כלכלה",
       tags: ["תעסוקה", "הייטק", "קריית גת"],
+      author_name: "שי גולדן",
+      published_at: new Date(Date.now() - 6 * 60 * 60 * 1000).toISOString(),
+      is_featured: false,
     },
     {
       id: "8",
@@ -120,6 +139,9 @@ const Index = () => {
       image: politicsImage,
       category: "פוליטי",
       tags: ["חינוך", "רפורמה", "בתי ספר"],
+      author_name: "עמית סגל",
+      published_at: new Date(Date.now() - 7 * 60 * 60 * 1000).toISOString(),
+      is_featured: false,
     },
     {
       id: "9",
@@ -127,6 +149,9 @@ const Index = () => {
       image: breakingImage,
       category: "ספורט",
       tags: ["כדורסל", "ספורט", "אליפות"],
+      author_name: "איתי לוי",
+      published_at: new Date(Date.now() - 8 * 60 * 60 * 1000).toISOString(),
+      is_featured: false,
     },
     {
       id: "10",
@@ -134,6 +159,9 @@ const Index = () => {
       image: internationalImage,
       category: "בעולם",
       tags: ["דיפלומטיה", "צרפת", "משבר"],
+      author_name: "אורלי וילנאי",
+      published_at: new Date(Date.now() - 10 * 60 * 60 * 1000).toISOString(),
+      is_featured: false,
     },
     {
       id: "11",
@@ -141,6 +169,9 @@ const Index = () => {
       image: techImage,
       category: "מדעי",
       tags: ["רפואה", "מחקר", "סרטן"],
+      author_name: "טל שניידר",
+      published_at: new Date(Date.now() - 12 * 60 * 60 * 1000).toISOString(),
+      is_featured: false,
     },
     {
       id: "12",
@@ -148,6 +179,9 @@ const Index = () => {
       image: politicsImage,
       category: "פוליטי",
       tags: ["מחאה", "רפורמה", "דמוקרטיה"],
+      author_name: "עמית סגל",
+      published_at: new Date(Date.now() - 15 * 60 * 60 * 1000).toISOString(),
+      is_featured: false,
     },
     {
       id: "13",
@@ -155,6 +189,9 @@ const Index = () => {
       image: economyImage,
       category: "בעולם",
       tags: ["מזג אוויר", "חום", "קיץ"],
+      author_name: "אורלי וילנאי",
+      published_at: new Date(Date.now() - 18 * 60 * 60 * 1000).toISOString(),
+      is_featured: false,
     },
     {
       id: "14",
@@ -162,6 +199,9 @@ const Index = () => {
       image: economyImage,
       category: "כלכלה",
       tags: ["מיסים", "עסקים", "אוצר"],
+      author_name: "שי גולדן",
+      published_at: new Date(Date.now() - 20 * 60 * 60 * 1000).toISOString(),
+      is_featured: false,
     },
     {
       id: "15",
@@ -169,6 +209,9 @@ const Index = () => {
       image: techImage,
       category: "מדעי",
       tags: ["תחבורה", "רכבת", "אילת"],
+      author_name: "טל שניידר",
+      published_at: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString(),
+      is_featured: false,
     },
     {
       id: "16",
@@ -176,6 +219,9 @@ const Index = () => {
       image: politicsImage,
       category: "פוליטי",
       tags: ["ביקורת", "קורונה", "ממשלה"],
+      author_name: "עמית סגל",
+      published_at: new Date(Date.now() - 30 * 60 * 60 * 1000).toISOString(),
+      is_featured: false,
     },
     {
       id: "17",
@@ -183,6 +229,9 @@ const Index = () => {
       image: economyImage,
       category: "כלכלה",
       tags: ["מחירים", "דלק", "התייקרות"],
+      author_name: "שי גולדן",
+      published_at: new Date(Date.now() - 36 * 60 * 60 * 1000).toISOString(),
+      is_featured: false,
     },
     {
       id: "18",
@@ -190,6 +239,9 @@ const Index = () => {
       image: internationalImage,
       category: "בעולם",
       tags: ["אום", "עזה", "מלחמה"],
+      author_name: "אורלי וילנאי",
+      published_at: new Date(Date.now() - 40 * 60 * 60 * 1000).toISOString(),
+      is_featured: false,
     },
     {
       id: "19",
@@ -197,6 +249,9 @@ const Index = () => {
       image: breakingImage,
       category: "ספורט",
       tags: ["כדורסל", "מכבי תל אביב", "יורוליג"],
+      author_name: "איתי לוי",
+      published_at: new Date(Date.now() - 48 * 60 * 60 * 1000).toISOString(),
+      is_featured: false,
     },
     {
       id: "20",
@@ -204,6 +259,9 @@ const Index = () => {
       image: politicsImage,
       category: "ספורט",
       tags: ["כדורגל", "הפועל ירושלים", "ליגה"],
+      author_name: "איתי לוי",
+      published_at: new Date(Date.now() - 60 * 60 * 60 * 1000).toISOString(),
+      is_featured: false,
     },
     {
       id: "21",
@@ -211,6 +269,9 @@ const Index = () => {
       image: techImage,
       category: "ספורט",
       tags: ["נבחרת נוער", "כדורגל", "אסיה"],
+      author_name: "איתי לוי",
+      published_at: new Date(Date.now() - 72 * 60 * 60 * 1000).toISOString(),
+      is_featured: false,
     },
   ];
 
@@ -296,6 +357,8 @@ const Index = () => {
                       tags={[article.category]}
                       articleId={article.id}
                       style="compact"
+                      authorName={article.author_name}
+                      publishedAt={article.published_at}
                     />
                   ))}
                 </div>
@@ -314,6 +377,8 @@ const Index = () => {
                         category={article.category}
                         tags={[article.category]}
                         articleId={article.id}
+                        authorName={article.author_name}
+                        publishedAt={article.published_at}
                       />
                     ))}
                   </div>

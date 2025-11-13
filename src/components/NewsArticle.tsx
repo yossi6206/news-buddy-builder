@@ -10,6 +10,8 @@ interface NewsArticleProps {
   articleId?: string;
   id?: string;
   style?: "compact" | "default";
+  authorName?: string;
+  publishedAt?: string;
 }
 
 const getCategoryColor = (category: string) => {
@@ -32,10 +34,34 @@ const NewsArticle = ({
   className,
   articleId,
   id,
-  style = "default"
+  style = "default",
+  authorName = "כתב ערוץ החדשות",
+  publishedAt
 }: NewsArticleProps) => {
   const finalId = articleId || id || "1";
   const isCompact = style === "compact";
+  
+  // Calculate time ago
+  const getTimeAgo = (date: string | undefined) => {
+    if (!date) return "22:10";
+    
+    const now = new Date();
+    const publishDate = new Date(date);
+    const diffInMinutes = Math.floor((now.getTime() - publishDate.getTime()) / (1000 * 60));
+    
+    if (diffInMinutes < 60) {
+      return diffInMinutes <= 1 ? "לפני דקה" : `לפני ${diffInMinutes} דקות`;
+    }
+    
+    const diffInHours = Math.floor(diffInMinutes / 60);
+    if (diffInHours < 24) {
+      // Show time in HH:MM format for today
+      return publishDate.toLocaleTimeString('he-IL', { hour: '2-digit', minute: '2-digit', hour12: false });
+    }
+    
+    const diffInDays = Math.floor(diffInHours / 24);
+    return diffInDays === 1 ? "אתמול" : `לפני ${diffInDays} ימים`;
+  };
   
   if (isCompact) {
     return (
@@ -61,9 +87,9 @@ const NewsArticle = ({
               {title}
             </h3>
             <div className="flex items-center gap-2 text-[11px] text-muted-foreground">
-              <span className="text-red-600 font-medium">22:10</span>
+              <span className="text-red-600 font-medium">{getTimeAgo(publishedAt)}</span>
               <span>|</span>
-              <span>נדב משלבי</span>
+              <span>{authorName}</span>
             </div>
           </div>
         </div>
@@ -106,7 +132,11 @@ const NewsArticle = ({
             </div>
           )}
           <div className="flex items-center justify-between mt-3">
-            <p className="text-article-time text-sm">לפני שעה</p>
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <span className="text-red-600 font-medium">{getTimeAgo(publishedAt)}</span>
+              <span>•</span>
+              <span>{authorName}</span>
+            </div>
             <span className="text-xs text-muted-foreground">👁 1.2K</span>
           </div>
         </div>
