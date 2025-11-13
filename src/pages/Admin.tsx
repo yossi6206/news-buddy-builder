@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { useUserRole } from '@/hooks/useUserRole';
 import { Button } from '@/components/ui/button';
@@ -14,6 +14,7 @@ import type { User } from '@supabase/supabase-js';
 
 const Admin = () => {
   const navigate = useNavigate();
+  const { id: articleId } = useParams();
   const { toast } = useToast();
   const [user, setUser] = useState<User | null>(null);
   const { canManageContent, loading: roleLoading } = useUserRole(user);
@@ -64,6 +65,44 @@ const Admin = () => {
       navigate('/');
     }
   }, [canManageContent, roleLoading, navigate, toast, user, sessionLoading]);
+
+  useEffect(() => {
+    // Load article if editing
+    if (articleId && user) {
+      const loadArticle = async () => {
+        const { data, error } = await supabase
+          .from('articles' as any)
+          .select('*')
+          .eq('id', articleId)
+          .maybeSingle();
+
+        if (error) {
+          toast({
+            title: 'שגיאה',
+            description: 'שגיאה בטעינת הכתבה',
+            variant: 'destructive',
+          });
+          navigate('/admin');
+          return;
+        }
+
+        if (data) {
+          setFormData({
+            title: (data as any).title,
+            subtitle: (data as any).subtitle || '',
+            content: (data as any).content,
+            category: (data as any).category,
+            isFeatured: (data as any).is_featured || false,
+          });
+          if ((data as any).image_url) {
+            setImagePreview((data as any).image_url);
+          }
+        }
+      };
+
+      loadArticle();
+    }
+  }, [articleId, user, navigate, toast]);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -134,40 +173,70 @@ const Admin = () => {
     try {
       setSubmitting(true);
 
-      const imageUrl = await uploadImage();
+      // Upload new image if selected, otherwise keep existing one
+      let imageUrl = imagePreview;
+      if (imageFile) {
+        const uploadedUrl = await uploadImage();
+        if (uploadedUrl) imageUrl = uploadedUrl;
+      }
 
-      const { error } = await supabase.from('articles' as any).insert({
-        title: formData.title,
-        subtitle: formData.subtitle || null,
-        content: formData.content,
-        category: formData.category,
-        image_url: imageUrl,
-        author_id: user.id,
-        is_featured: formData.isFeatured,
-      });
+      if (articleId) {
+        // Update existing article
+        const { error } = await supabase
+          .from('articles' as any)
+          .update({
+            title: formData.title,
+            subtitle: formData.subtitle || null,
+            content: formData.content,
+            category: formData.category,
+            image_url: imageUrl,
+            is_featured: formData.isFeatured,
+          })
+          .eq('id', articleId);
 
-      if (error) throw error;
+        if (error) throw error;
 
-      toast({
-        title: 'הצלחה!',
-        description: 'הכתבה פורסמה בהצלחה',
-      });
+        toast({
+          title: 'הצלחה!',
+          description: 'הכתבה עודכנה בהצלחה',
+        });
 
-      // Reset form
-      setFormData({
-        title: '',
-        subtitle: '',
-        content: '',
-        category: 'פוליטי',
-        isFeatured: false,
-      });
-      setImageFile(null);
-      setImagePreview('');
+        navigate(`/article/${articleId}`);
+      } else {
+        // Create new article
+        const { error } = await supabase.from('articles' as any).insert({
+          title: formData.title,
+          subtitle: formData.subtitle || null,
+          content: formData.content,
+          category: formData.category,
+          image_url: imageUrl,
+          author_id: user.id,
+          is_featured: formData.isFeatured,
+        });
+
+        if (error) throw error;
+
+        toast({
+          title: 'הצלחה!',
+          description: 'הכתבה פורסמה בהצלחה',
+        });
+
+        // Reset form
+        setFormData({
+          title: '',
+          subtitle: '',
+          content: '',
+          category: 'פוליטי',
+          isFeatured: false,
+        });
+        setImageFile(null);
+        setImagePreview('');
+      }
     } catch (error) {
-      console.error('Error creating article:', error);
+      console.error('Error saving article:', error);
       toast({
         title: 'שגיאה',
-        description: 'שגיאה בפרסום הכתבה',
+        description: articleId ? 'שגיאה בעדכון הכתבה' : 'שגיאה בפרסום הכתבה',
         variant: 'destructive',
       });
     } finally {
@@ -195,7 +264,7 @@ const Admin = () => {
         <div className="mb-8 flex items-center justify-between">
           <div>
             <h1 className="text-3xl font-bold mb-2">ניהול תוכן</h1>
-            <p className="text-muted-foreground">העלאת כתבה חדשה</p>
+            <p className="text-muted-foreground">{articleId ? 'עריכת כתבה' : 'העלאת כתבה חדשה'}</p>
           </div>
           <Button variant="outline" onClick={() => navigate('/')}>
             חזרה לעמוד הראשי
@@ -205,8 +274,10 @@ const Admin = () => {
 
         <Card>
           <CardHeader>
-            <CardTitle>כתבה חדשה</CardTitle>
-            <CardDescription>מלא את הפרטים להעלאת כתבה חדשה לאתר</CardDescription>
+            <CardTitle>{articleId ? 'עריכת כתבה' : 'כתבה חדשה'}</CardTitle>
+            <CardDescription>
+              {articleId ? 'ערוך את פרטי הכתבה' : 'מלא את הפרטים להעלאת כתבה חדשה לאתר'}
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-6">
@@ -300,12 +371,12 @@ const Admin = () => {
                 {submitting ? (
                   <>
                     <Loader2 className="ml-2 h-4 w-4 animate-spin" />
-                    מפרסם...
+                    {articleId ? 'מעדכן...' : 'מפרסם...'}
                   </>
                 ) : (
                   <>
                     <Upload className="ml-2 h-4 w-4" />
-                    פרסם כתבה
+                    {articleId ? 'עדכן כתבה' : 'פרסם כתבה'}
                   </>
                 )}
               </Button>
