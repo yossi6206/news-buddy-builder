@@ -8,6 +8,7 @@ interface NewsArticleProps {
   tags?: string[];
   className?: string;
   articleId?: string;
+  style?: React.CSSProperties;
 }
 
 const getCategoryColor = (category: string) => {
@@ -28,10 +29,11 @@ const NewsArticle = ({
   category, 
   tags = [],
   className,
-  articleId = "1"
+  articleId = "1",
+  style
 }: NewsArticleProps) => {
   return (
-    <Link to={`/article/${articleId}`} className={cn("group cursor-pointer animate-fade-in block", className)}>
+    <Link to={`/article/${articleId}`} className={cn("group cursor-pointer animate-fade-in block", className)} style={style}>
       <div className="bg-card rounded-lg overflow-hidden article-hover" style={{ boxShadow: 'var(--shadow-article)' }}>
         <div className="relative overflow-hidden">
           <img
