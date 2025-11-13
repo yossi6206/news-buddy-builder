@@ -33,7 +33,7 @@ const Index = () => {
       try {
         // Fetch featured article
         const { data: featured } = await supabase
-          .from('articles')
+          .from('articles' as any)
           .select('*')
           .eq('is_featured', true)
           .order('published_at', { ascending: false })
@@ -41,19 +41,19 @@ const Index = () => {
           .single();
 
         if (featured) {
-          setFeaturedArticle(featured);
+          setFeaturedArticle(featured as any);
         }
 
         // Fetch regular articles
         const { data: regularArticles } = await supabase
-          .from('articles')
+          .from('articles' as any)
           .select('*')
           .eq('is_featured', false)
           .order('published_at', { ascending: false })
           .limit(20);
 
         if (regularArticles) {
-          setArticles(regularArticles);
+          setArticles(regularArticles as any);
         }
       } catch (error) {
         console.error('Error fetching articles:', error);

@@ -125,7 +125,7 @@ const Admin = () => {
 
       const imageUrl = await uploadImage();
 
-      const { error } = await supabase.from('articles').insert({
+      const { error } = await supabase.from('articles' as any).insert({
         title: formData.title,
         subtitle: formData.subtitle || null,
         content: formData.content,

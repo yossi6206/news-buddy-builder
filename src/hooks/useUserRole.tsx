@@ -11,22 +11,29 @@ export const useUserRole = (user: User | null) => {
   useEffect(() => {
     const fetchRoles = async () => {
       if (!user) {
+        console.log('useUserRole: No user');
         setRoles([]);
         setLoading(false);
         return;
       }
 
+      console.log('useUserRole: Fetching roles for user:', user.id);
+
       try {
         const { data, error } = await supabase
-          .from('user_roles')
+          .from('user_roles' as any)
           .select('role')
           .eq('user_id', user.id);
+
+        console.log('useUserRole: Query result:', { data, error });
 
         if (error) {
           console.error('Error fetching user roles:', error);
           setRoles([]);
         } else {
-          setRoles(data?.map(r => r.role as AppRole) || []);
+          const userRoles = data?.map((r: any) => r.role as AppRole) || [];
+          console.log('useUserRole: Setting roles:', userRoles);
+          setRoles(userRoles);
         }
       } catch (error) {
         console.error('Error in fetchRoles:', error);
@@ -46,3 +53,4 @@ export const useUserRole = (user: User | null) => {
 
   return { roles, loading, hasRole, isAdmin, isEditor, canManageContent };
 };
+
