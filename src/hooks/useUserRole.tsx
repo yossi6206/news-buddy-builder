@@ -21,20 +21,40 @@ export const useUserRole = (user: User | null) => {
       console.log('useUserRole: Fetching roles for user:', user.id);
 
       try {
-        const { data, error } = await supabase
-          .from('user_roles' as any)
-          .select('role')
-          .eq('user_id', user.id);
+        // Prefer secure RPC checks (security definer, bypasses RLS recursion)
+        const [adminRes, editorRes] = await Promise.all([
+          (supabase as any).rpc('has_role', { _user_id: user.id, _role: 'admin' }),
+          (supabase as any).rpc('has_role', { _user_id: user.id, _role: 'editor' }),
+        ]);
 
-        console.log('useUserRole: Query result:', { data, error });
+        console.log('useUserRole: RPC results:', { adminRes, editorRes });
 
-        if (error) {
-          console.error('Error fetching user roles:', error);
-          setRoles([]);
+        if (adminRes.error || editorRes.error) {
+          console.warn('useUserRole: RPC error, falling back to table select', {
+            adminError: adminRes.error,
+            editorError: editorRes.error,
+          });
+          const { data, error } = await supabase
+            .from('user_roles' as any)
+            .select('role')
+            .eq('user_id', user.id);
+
+          console.log('useUserRole: Fallback query result:', { data, error });
+
+          if (error) {
+            console.error('Error fetching user roles:', error);
+            setRoles([]);
+          } else {
+            const userRoles = data?.map((r: any) => r.role as AppRole) || [];
+            console.log('useUserRole: Setting roles (fallback):', userRoles);
+            setRoles(userRoles);
+          }
         } else {
-          const userRoles = data?.map((r: any) => r.role as AppRole) || [];
-          console.log('useUserRole: Setting roles:', userRoles);
-          setRoles(userRoles);
+          const nextRoles: AppRole[] = [];
+          if (adminRes.data) nextRoles.push('admin');
+          if (editorRes.data) nextRoles.push('editor');
+          console.log('useUserRole: Setting roles (rpc):', nextRoles);
+          setRoles(nextRoles);
         }
       } catch (error) {
         console.error('Error in fetchRoles:', error);
