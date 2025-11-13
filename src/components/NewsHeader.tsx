@@ -1,13 +1,15 @@
-import { Search, LogIn, LogOut, User } from "lucide-react";
+import { Search, LogIn, LogOut, Settings } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
+import { useUserRole } from "@/hooks/useUserRole";
 import type { User as SupabaseUser } from "@supabase/supabase-js";
 
 const NewsHeader = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState<SupabaseUser | null>(null);
+  const { canManageContent } = useUserRole(user);
 
   useEffect(() => {
     // Get initial session
@@ -59,6 +61,16 @@ const NewsHeader = () => {
             {user ? (
               <>
                 <span className="text-sm hidden md:inline">{user.email}</span>
+                {canManageContent && (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => navigate("/admin")}
+                    className="text-white hover:bg-white/20"
+                  >
+                    <Settings className="h-4 w-4" />
+                  </Button>
+                )}
                 <Button
                   variant="ghost"
                   size="sm"
