@@ -17,6 +17,7 @@ export const useUserRole = (user: User | null) => {
         return;
       }
 
+      setLoading(true);
       console.log('useUserRole: Fetching roles for user:', user.id);
 
       try {
