@@ -323,7 +323,7 @@ const Article = () => {
             {/* Article Content */}
             <div className="prose prose-lg max-w-none">
               <p className="text-lg leading-relaxed mb-6">
-                <strong className="font-bold">ירושלים -</strong> במהלך השעות האחרונות חלו התפתחויות דרמטיות במצב
+                <strong className="font-bold">תל אביב -</strong> במהלך השעות האחרונות חלו התפתחויות דרמטיות במצב
                 הביטחוני במדינה. גורמים בכירים במערכת הביטחון מדווחים על שינוי משמעותי בתמונת המצב, המצריך התייחסות
                 דחופה ומקיפה.
               </p>
