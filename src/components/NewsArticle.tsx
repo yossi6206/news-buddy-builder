@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import { Link } from "react-router-dom";
 
 interface NewsArticleProps {
   title: string;
@@ -6,6 +7,7 @@ interface NewsArticleProps {
   category?: string;
   tags?: string[];
   className?: string;
+  articleId?: string;
 }
 
 const getCategoryColor = (category: string) => {
@@ -25,10 +27,11 @@ const NewsArticle = ({
   image, 
   category, 
   tags = [],
-  className 
+  className,
+  articleId = "1"
 }: NewsArticleProps) => {
   return (
-    <article className={cn("group cursor-pointer animate-fade-in", className)}>
+    <Link to={`/article/${articleId}`} className={cn("group cursor-pointer animate-fade-in block", className)}>
       <div className="bg-card rounded-lg overflow-hidden article-hover" style={{ boxShadow: 'var(--shadow-article)' }}>
         <div className="relative overflow-hidden">
           <img
@@ -67,7 +70,7 @@ const NewsArticle = ({
           </div>
         </div>
       </div>
-    </article>
+    </Link>
   );
 };
 

@@ -1,14 +1,16 @@
 import { TrendingUp } from "lucide-react";
+import { Link } from "react-router-dom";
 
 interface HeroArticleProps {
   title: string;
   subtitle: string;
   image: string;
+  articleId?: string;
 }
 
-const HeroArticle = ({ title, subtitle, image }: HeroArticleProps) => {
+const HeroArticle = ({ title, subtitle, image, articleId = "1" }: HeroArticleProps) => {
   return (
-    <article className="group cursor-pointer bg-card rounded-lg overflow-hidden article-hover animate-fade-in">
+    <Link to={`/article/${articleId}`} className="group cursor-pointer bg-card rounded-lg overflow-hidden article-hover animate-fade-in block">
       <div className="relative h-[500px] overflow-hidden">
         <img
           src={image}
@@ -40,7 +42,7 @@ const HeroArticle = ({ title, subtitle, image }: HeroArticleProps) => {
           </div>
         </div>
       </div>
-    </article>
+    </Link>
   );
 };
 

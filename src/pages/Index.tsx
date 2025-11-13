@@ -14,30 +14,35 @@ import techImage from "@/assets/tech-news.jpg";
 const Index = () => {
   const articles = [
     {
+      id: "2",
       title: "פגישת ראש הממשלה עם שרי הממשלה בנושא המצב הביטחוני",
       image: politicsImage,
       category: "פוליטי",
       tags: ["ממשלה", "ביטחון", "נתניהו"],
     },
     {
+      id: "3",
       title: "דיווח חדש: מכה גדולה לישראל - חמאס מסרב לשחרר חטופים נוספים",
       image: breakingImage,
       category: "ביטחוני",
       tags: ["חטופים", "עזה", "דחוף"],
     },
     {
+      id: "4",
       title: "הנשיא האמריקאי דן עם מנהיגי העולם על המצב במזרח התיכון",
       image: internationalImage,
       category: "בעולם",
       tags: ["ארה\"ב", "דיפלומטיה", "עולם"],
     },
     {
+      id: "5",
       title: "שוק ההון בתנודות חדות: המשקיעים חוששים ממיתון כלכלי",
       image: economyImage,
       category: "כלכלה",
       tags: ["בורסה", "כלכלה", "שוק"],
     },
     {
+      id: "6",
       title: "חדשנות ישראלית: סטארט-אפ מקומי מפתח טכנולוגיה פורצת דרך",
       image: techImage,
       category: "מדעי",
@@ -59,6 +64,7 @@ const Index = () => {
               title="מכה גדולה לישראל: הנחת התדמיתי החדש אחרי מלחמת עזה"
               subtitle="הצבא מדווח על הצלחות מבצעיות אך המחיר האנושי עדיין כבד"
               image={heroImage}
+              articleId="1"
             />
           </div>
 
@@ -75,6 +81,7 @@ const Index = () => {
                   image={article.image}
                   category={article.category}
                   tags={article.tags}
+                  articleId={article.id}
                 />
               ))}
             </div>
@@ -90,6 +97,7 @@ const Index = () => {
                 image={article.image}
                 category={article.category}
                 tags={article.tags}
+                articleId={article.id}
               />
             ))}
           </div>
@@ -101,6 +109,7 @@ const Index = () => {
               image={politicsImage}
               category="פוליטי"
               tags={["נתניהו", "חטופים"]}
+              articleId="2"
               className="md:col-span-2"
             />
           </div>
