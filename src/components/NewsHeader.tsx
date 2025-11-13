@@ -10,6 +10,16 @@ const NewsHeader = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState<SupabaseUser | null>(null);
   const { canManageContent, loading: roleLoading } = useUserRole(user);
+  const [currentTime, setCurrentTime] = useState(new Date());
+
+  // Update time every minute
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 60000); // Update every minute
+
+    return () => clearInterval(timer);
+  }, []);
 
   useEffect(() => {
     // Listen for auth changes FIRST
@@ -45,13 +55,27 @@ const NewsHeader = () => {
     "mako",
   ];
 
+  const getFormattedDateTime = () => {
+    const days = ['ראשון', 'שני', 'שלישי', 'רביעי', 'חמישי', 'שישי', 'שבת'];
+    const months = ['ינואר', 'פברואר', 'מרץ', 'אפריל', 'מאי', 'יוני', 'יולי', 'אוגוסט', 'ספטמבר', 'אוקטובר', 'נובמבר', 'דצמבר'];
+    
+    const dayName = days[currentTime.getDay()];
+    const date = currentTime.getDate();
+    const month = months[currentTime.getMonth()];
+    const year = currentTime.getFullYear();
+    const hours = currentTime.getHours().toString().padStart(2, '0');
+    const minutes = currentTime.getMinutes().toString().padStart(2, '0');
+    
+    return `${hours}:${minutes} ,${date} ${month} ${year}`;
+  };
+
   return (
     <header className="sticky top-0 z-50 bg-card shadow-sm">
       {/* Top Red Bar */}
       <div className="bg-news-header text-news-header-foreground">
         <div className="container mx-auto px-4 py-3 flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <span className="text-sm">חמישי 13.11.25</span>
+            <span className="text-sm">{getFormattedDateTime()}</span>
             <span className="text-sm">החדשות</span>
           </div>
           <Link to="/" className="text-3xl font-bold tracking-wider hover:opacity-90 transition-opacity">
