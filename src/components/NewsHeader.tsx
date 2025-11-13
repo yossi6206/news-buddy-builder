@@ -9,7 +9,7 @@ import type { User as SupabaseUser } from "@supabase/supabase-js";
 const NewsHeader = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState<SupabaseUser | null>(null);
-  const { canManageContent } = useUserRole(user);
+  const { canManageContent, loading: roleLoading } = useUserRole(user);
 
   useEffect(() => {
     // Get initial session
@@ -61,7 +61,7 @@ const NewsHeader = () => {
             {user ? (
               <>
                 <span className="text-sm hidden md:inline">{user.email}</span>
-                {canManageContent && (
+                {!roleLoading && canManageContent && (
                   <Button
                     variant="ghost"
                     size="sm"
