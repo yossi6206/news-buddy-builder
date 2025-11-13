@@ -66,18 +66,18 @@ const NewsArticle = ({
   if (isCompact) {
     return (
       <Link to={`/article/${articleId}`} className={cn("group cursor-pointer block", className)}>
-        <div className="bg-card overflow-hidden hover:bg-muted/30 transition-colors">
-          <div className="relative overflow-hidden">
+        <div className="bg-card rounded-xl overflow-hidden hover:bg-muted/30 transition-colors">
+          <div className="relative overflow-hidden rounded-t-xl">
             <img
               src={image}
               alt={title}
               className="w-full h-44 object-cover transition-transform duration-500 group-hover:scale-105"
             />
             {category && (
-              <span className={cn(
-                getCategoryColor(category),
-                "absolute bottom-2 right-2 text-white px-2 py-1 text-[10px] font-bold"
-              )}>
+            <span className={cn(
+              getCategoryColor(category),
+              "absolute bottom-2 right-2 text-white px-2 py-1 text-[10px] font-bold rounded-lg"
+            )}>
                 {category}
               </span>
             )}
@@ -99,8 +99,8 @@ const NewsArticle = ({
   
   return (
     <Link to={`/article/${articleId}`} className={cn("group cursor-pointer animate-fade-in block", className)}>
-      <div className="bg-card rounded-lg overflow-hidden article-hover" style={{ boxShadow: 'var(--shadow-article)' }}>
-        <div className="relative overflow-hidden">
+      <div className="bg-card rounded-xl overflow-hidden article-hover" style={{ boxShadow: 'var(--shadow-article)' }}>
+        <div className="relative overflow-hidden rounded-t-xl">
           <img
             src={image}
             alt={title}
@@ -109,7 +109,7 @@ const NewsArticle = ({
           {category && (
             <span className={cn(
               getCategoryColor(category),
-              "absolute top-3 right-3 text-white px-3 py-1 text-xs font-bold rounded shadow-md"
+              "absolute top-3 right-3 text-white px-3 py-1 text-xs font-bold rounded-lg shadow-md"
             )}>
               {category}
             </span>
@@ -124,7 +124,7 @@ const NewsArticle = ({
               {tags.map((tag, index) => (
                 <span 
                   key={index}
-                  className="text-xs bg-muted text-muted-foreground px-2 py-1 rounded hover:bg-primary hover:text-primary-foreground transition-colors"
+                  className="text-xs bg-muted text-muted-foreground px-2 py-1 rounded-lg hover:bg-primary hover:text-primary-foreground transition-colors"
                 >
                   #{tag}
                 </span>

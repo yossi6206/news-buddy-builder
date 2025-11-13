@@ -182,7 +182,7 @@ const CommentsSection = ({ articleId }: CommentsSectionProps) => {
           </Button>
         </form>
       ) : (
-        <div className="bg-muted rounded-lg p-6 mb-8 text-center">
+        <div className="bg-muted rounded-xl p-6 mb-8 text-center">
           <p className="mb-4">התחבר כדי להגיב על הכתבה</p>
           <Button onClick={() => window.location.href = '/auth'}>
             התחבר או הרשם
@@ -194,13 +194,13 @@ const CommentsSection = ({ articleId }: CommentsSectionProps) => {
       {loading ? (
         <div className="text-center py-8 text-muted-foreground">טוען תגובות...</div>
       ) : comments.length === 0 ? (
-        <div className="bg-muted rounded-lg p-6 text-center text-muted-foreground">
+        <div className="bg-muted rounded-xl p-6 text-center text-muted-foreground">
           <p>אין תגובות עדיין. היה הראשון להגיב!</p>
         </div>
       ) : (
         <div className="space-y-6">
           {comments.map((comment) => (
-            <div key={comment.id} className="bg-card border rounded-lg p-4 animate-fade-in">
+            <div key={comment.id} className="bg-card border rounded-xl p-4 animate-fade-in">
               <div className="flex items-start justify-between mb-3">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">

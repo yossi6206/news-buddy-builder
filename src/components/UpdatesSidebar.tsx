@@ -29,10 +29,10 @@ const UpdatesSidebar = () => {
   ];
 
   return (
-    <aside className="w-[320px] bg-card flex-shrink-0 hidden lg:block sticky top-20 h-fit border border-border rounded-sm">
+    <aside className="w-[320px] bg-card flex-shrink-0 hidden lg:block sticky top-20 h-fit border border-border rounded-xl">
       {/* Header */}
-      <div className="bg-primary text-primary-foreground p-3 flex items-center gap-2">
-        <div className="bg-white text-primary rounded-sm p-1">
+      <div className="bg-primary text-primary-foreground p-3 flex items-center gap-2 rounded-t-xl">
+        <div className="bg-white text-primary rounded-lg p-1">
           <Clock className="h-4 w-4" />
         </div>
         <h2 className="text-base font-bold">איש הכתבים</h2>
@@ -53,7 +53,7 @@ const UpdatesSidebar = () => {
                 <div className="flex items-center gap-2 mb-1">
                   <span className="text-xs font-bold text-primary">{update.author}</span>
                   {update.isLive && (
-                    <span className="flex items-center gap-1 text-[9px] bg-red-500 text-white px-1.5 py-0.5 rounded-sm font-bold">
+                    <span className="flex items-center gap-1 text-[9px] bg-red-500 text-white px-1.5 py-0.5 rounded-lg font-bold">
                       דוח חיוני
                     </span>
                   )}
@@ -68,7 +68,7 @@ const UpdatesSidebar = () => {
       
       {/* Footer Button */}
       <div className="p-3 border-t border-border">
-        <button className="w-full bg-primary text-primary-foreground font-bold py-2 text-sm rounded-sm hover:bg-primary/90 transition-colors">
+        <button className="w-full bg-primary text-primary-foreground font-bold py-2 text-sm rounded-xl hover:bg-primary/90 transition-colors">
           לכל ההודעות
         </button>
       </div>
