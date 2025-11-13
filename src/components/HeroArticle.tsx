@@ -6,9 +6,16 @@ interface HeroArticleProps {
   subtitle: string;
   image: string;
   articleId?: string;
+  authorName?: string;
+  publishedAt?: string;
 }
 
-const HeroArticle = ({ title, subtitle, image, articleId = "1" }: HeroArticleProps) => {
+const HeroArticle = ({ title, subtitle, image, articleId = "1", authorName = "כתב ערוץ החדשות", publishedAt }: HeroArticleProps) => {
+  const getTimeDisplay = (date: string | undefined) => {
+    if (!date) return "22:10";
+    const publishDate = new Date(date);
+    return publishDate.toLocaleTimeString('he-IL', { hour: '2-digit', minute: '2-digit', hour12: false });
+  };
   return (
     <Link to={`/article/${articleId}`} className="group cursor-pointer bg-card overflow-hidden block relative">
       <div className="relative h-[380px] overflow-hidden">
@@ -27,9 +34,9 @@ const HeroArticle = ({ title, subtitle, image, articleId = "1" }: HeroArticlePro
             {subtitle}
           </p>
           <div className="flex items-center gap-3 text-white/80 text-sm">
-            <span className="bg-primary px-2 py-1 text-xs font-bold">ברנח טרגים</span>
+            <span className="font-medium">{authorName}</span>
             <span>|</span>
-            <span>21:35</span>
+            <span>{getTimeDisplay(publishedAt)}</span>
           </div>
         </div>
       </div>

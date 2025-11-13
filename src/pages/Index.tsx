@@ -335,6 +335,8 @@ const Index = () => {
                     subtitle={displayFeatured.subtitle || ""}
                     image={getImageUrl(displayFeatured)}
                     articleId={displayFeatured.id}
+                    authorName={displayFeatured.author_name}
+                    publishedAt={displayFeatured.published_at}
                   />
                 )}
               </div>
