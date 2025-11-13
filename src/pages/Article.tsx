@@ -1,9 +1,10 @@
 import { useParams, Link } from "react-router-dom";
-import { ArrowRight, Share2, Bookmark, MessageCircle, Clock, User } from "lucide-react";
+import { ArrowRight, Share2, Bookmark, Clock, User } from "lucide-react";
 import NewsHeader from "@/components/NewsHeader";
 import BreakingNewsTicker from "@/components/BreakingNewsTicker";
 import NewsArticle from "@/components/NewsArticle";
 import NewsFooter from "@/components/NewsFooter";
+import CommentsSection from "@/components/CommentsSection";
 import heroImage from "@/assets/hero-news.jpg";
 import politicsImage from "@/assets/politics-news.jpg";
 import breakingImage from "@/assets/breaking-news.jpg";
@@ -100,10 +101,6 @@ const Article = () => {
               <div className="flex items-center gap-2">
                 👁 <span>{article.views} צפיים</span>
               </div>
-              <div className="flex items-center gap-2">
-                <MessageCircle className="h-4 w-4" />
-                <span>{article.comments} תגובות</span>
-              </div>
             </div>
 
             {/* Action Buttons */}
@@ -176,16 +173,7 @@ const Article = () => {
             </div>
 
             {/* Comments Section */}
-            <div className="mt-12 pt-8 border-t">
-              <h3 className="text-2xl font-bold mb-6 flex items-center gap-2">
-                <MessageCircle className="h-6 w-6" />
-                תגובות ({article.comments})
-              </h3>
-              
-              <div className="bg-muted rounded-lg p-6 text-center text-muted-foreground">
-                <p>מערכת התגובות תהיה זמינה בקרוב</p>
-              </div>
-            </div>
+            <CommentsSection articleId={id || "1"} />
           </article>
 
           {/* Sidebar */}

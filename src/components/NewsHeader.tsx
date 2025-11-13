@@ -1,6 +1,33 @@
-import { Search } from "lucide-react";
+import { Search, LogIn, LogOut, User } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
+import { Button } from "@/components/ui/button";
+import type { User as SupabaseUser } from "@supabase/supabase-js";
 
 const NewsHeader = () => {
+  const navigate = useNavigate();
+  const [user, setUser] = useState<SupabaseUser | null>(null);
+
+  useEffect(() => {
+    // Get initial session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user ?? null);
+    });
+
+    // Listen for auth changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    navigate("/");
+  };
+
   const navItems = [
     "LIVE",
     "כל החדשות",
@@ -25,7 +52,34 @@ const NewsHeader = () => {
             <span className="text-sm">חמישי 13.11.25</span>
             <span className="text-sm">החדשות</span>
           </div>
-          <div className="text-3xl font-bold tracking-wider">N12</div>
+          <Link to="/" className="text-3xl font-bold tracking-wider hover:opacity-90 transition-opacity">
+            N12
+          </Link>
+          <div className="flex items-center gap-2">
+            {user ? (
+              <>
+                <span className="text-sm hidden md:inline">{user.email}</span>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={handleLogout}
+                  className="text-white hover:bg-white/20"
+                >
+                  <LogOut className="h-4 w-4" />
+                </Button>
+              </>
+            ) : (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => navigate("/auth")}
+                className="text-white hover:bg-white/20"
+              >
+                <LogIn className="h-4 w-4 ml-2" />
+                התחבר
+              </Button>
+            )}
+          </div>
         </div>
       </div>
 
