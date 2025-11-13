@@ -44,7 +44,8 @@ const Admin = () => {
   }, []);
 
   useEffect(() => {
-    if (!roleLoading && !canManageContent && user) {
+    // Only redirect if: user exists, roles have finished loading, and user doesn't have permission
+    if (user && !roleLoading && !canManageContent) {
       toast({
         title: 'אין הרשאה',
         description: 'אין לך הרשאות לגשת לדף זה',
