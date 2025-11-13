@@ -21,7 +21,9 @@ interface ArticleData {
   image_url: string | null;
   category: string;
   author_id: string;
+  author_name?: string;
   created_at: string;
+  published_at?: string;
   is_featured: boolean;
   profiles?: {
     full_name: string | null;
@@ -129,8 +131,12 @@ const Article = () => {
     );
   }
 
-  const formattedDate = format(new Date(article.created_at), "d MMMM yyyy, HH:mm", { locale: he });
-  const authorName = article.profiles?.full_name || 'כתב אנונימי';
+  const formattedDate = format(
+    new Date(article.published_at || article.created_at), 
+    "d MMMM yyyy, HH:mm", 
+    { locale: he }
+  );
+  const authorName = article.author_name || article.profiles?.full_name || 'כתב ערוץ החדשות';
 
   return (
     <div className="min-h-screen bg-background">
@@ -231,6 +237,9 @@ const Article = () => {
                       image={relatedArticle.image_url || ''}
                       category={relatedArticle.category}
                       tags={[]}
+                      authorName={relatedArticle.author_name}
+                      publishedAt={relatedArticle.published_at || relatedArticle.created_at}
+                      style="compact"
                     />
                   ))}
                 </div>
