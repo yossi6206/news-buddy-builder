@@ -49,6 +49,18 @@ const Article = () => {
       category: "בעולם",
       tags: ["דיפלומטיה"],
     },
+    {
+      title: "צה\"ל מכריז על סיום מבצע רחב היקף בצפון הרצועה",
+      image: breakingImage,
+      category: "ביטחוני",
+      tags: ["צהל", "מבצע"],
+    },
+    {
+      title: "משלחת ישראלית נוסעת למצרים לשיחות בנושא החטופים",
+      image: politicsImage,
+      category: "פוליטי",
+      tags: ["מצרים", "משא ומתן"],
+    },
   ];
 
   return (
