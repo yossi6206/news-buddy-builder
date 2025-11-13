@@ -11,6 +11,17 @@ import { useToast } from '@/hooks/use-toast';
 import { ArrowRight, Upload, Loader2 } from 'lucide-react';
 import NewsHeader from '@/components/NewsHeader';
 import type { User } from '@supabase/supabase-js';
+import { z } from 'zod';
+
+// Validation schema
+const articleSchema = z.object({
+  title: z.string().trim().min(1, 'כותרת חובה').max(200, 'כותרת ארוכה מדי'),
+  subtitle: z.string().trim().max(300, 'כותרת משנה ארוכה מדי').optional(),
+  content: z.string().trim().min(1, 'תוכן חובה').max(10000, 'תוכן ארוך מדי'),
+  authorName: z.string().trim().max(50, 'שם הכתב ארוך מדי').optional(),
+  category: z.string(),
+  isFeatured: z.boolean(),
+});
 
 const Admin = () => {
   const navigate = useNavigate();
@@ -28,6 +39,7 @@ const Admin = () => {
     content: '',
     category: 'פוליטי',
     isFeatured: false,
+    authorName: '',
   });
 
   const [imageFile, setImageFile] = useState<File | null>(null);
@@ -94,6 +106,7 @@ const Admin = () => {
             content: (data as any).content,
             category: (data as any).category,
             isFeatured: (data as any).is_featured || false,
+            authorName: (data as any).author_name || '',
           });
           if ((data as any).image_url) {
             setImagePreview((data as any).image_url);
@@ -163,6 +176,20 @@ const Admin = () => {
       return;
     }
 
+    // Validate form data
+    try {
+      articleSchema.parse(formData);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        toast({
+          title: 'שגיאת אימות',
+          description: error.errors[0].message,
+          variant: 'destructive',
+        });
+        return;
+      }
+    }
+
     if (!formData.title || !formData.content) {
       toast({
         title: 'שגיאה',
@@ -183,14 +210,7 @@ const Admin = () => {
       }
 
       if (articleId) {
-        // Get user profile to get editor name
-        const { data: profile } = await supabase
-          .from('profiles')
-          .select('full_name')
-          .eq('id', user.id)
-          .maybeSingle();
-
-        // Update existing article
+        // Update existing article - update published date and use custom author name
         const { error } = await supabase
           .from('articles' as any)
           .update({
@@ -200,7 +220,8 @@ const Admin = () => {
             category: formData.category,
             image_url: imageUrl,
             is_featured: formData.isFeatured,
-            author_name: profile?.full_name || user.email?.split('@')[0] || 'עורך',
+            author_name: formData.authorName || 'כתב ערוץ החדשות',
+            published_at: new Date().toISOString(),
           })
           .eq('id', articleId);
 
@@ -213,14 +234,7 @@ const Admin = () => {
 
         navigate(`/article/${articleId}`);
       } else {
-        // Get user profile to get author name
-        const { data: profile } = await supabase
-          .from('profiles')
-          .select('full_name')
-          .eq('id', user.id)
-          .maybeSingle();
-
-        // Create new article
+        // Create new article with custom author name
         const { error } = await supabase.from('articles' as any).insert({
           title: formData.title,
           subtitle: formData.subtitle || null,
@@ -228,7 +242,7 @@ const Admin = () => {
           category: formData.category,
           image_url: imageUrl,
           author_id: user.id,
-          author_name: profile?.full_name || user.email?.split('@')[0] || 'כתב',
+          author_name: formData.authorName || 'כתב ערוץ החדשות',
           is_featured: formData.isFeatured,
         });
 
@@ -246,6 +260,7 @@ const Admin = () => {
           content: '',
           category: 'פוליטי',
           isFeatured: false,
+          authorName: '',
         });
         setImageFile(null);
         setImagePreview('');
@@ -318,6 +333,20 @@ const Admin = () => {
                   onChange={(e) => setFormData({ ...formData, subtitle: e.target.value })}
                   placeholder="כותרת משנה (אופציונלי)"
                 />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="authorName">שם הכתב</Label>
+                <Input
+                  id="authorName"
+                  value={formData.authorName}
+                  onChange={(e) => setFormData({ ...formData, authorName: e.target.value })}
+                  placeholder="שם הכתב (למשל: רון בן ישי)"
+                  maxLength={50}
+                />
+                <p className="text-xs text-muted-foreground">
+                  השאר ריק לשם ברירת מחדל: "כתב ערוץ החדשות"
+                </p>
               </div>
 
               <div className="space-y-2">
