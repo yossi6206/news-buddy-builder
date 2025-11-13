@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
 import NewsHeader from "@/components/NewsHeader";
 import BreakingNewsTicker from "@/components/BreakingNewsTicker";
 import UpdatesSidebar from "@/components/UpdatesSidebar";
@@ -11,8 +13,60 @@ import internationalImage from "@/assets/international-news.jpg";
 import economyImage from "@/assets/economy-news.jpg";
 import techImage from "@/assets/tech-news.jpg";
 
+interface Article {
+  id: string;
+  title: string;
+  subtitle?: string;
+  image_url?: string;
+  category: string;
+  is_featured: boolean;
+  published_at: string;
+}
+
 const Index = () => {
-  const articles = [
+  const [featuredArticle, setFeaturedArticle] = useState<Article | null>(null);
+  const [articles, setArticles] = useState<Article[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchArticles = async () => {
+      try {
+        // Fetch featured article
+        const { data: featured } = await supabase
+          .from('articles')
+          .select('*')
+          .eq('is_featured', true)
+          .order('published_at', { ascending: false })
+          .limit(1)
+          .single();
+
+        if (featured) {
+          setFeaturedArticle(featured);
+        }
+
+        // Fetch regular articles
+        const { data: regularArticles } = await supabase
+          .from('articles')
+          .select('*')
+          .eq('is_featured', false)
+          .order('published_at', { ascending: false })
+          .limit(20);
+
+        if (regularArticles) {
+          setArticles(regularArticles);
+        }
+      } catch (error) {
+        console.error('Error fetching articles:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchArticles();
+  }, []);
+
+  // Fallback static articles for when there's no data
+  const fallbackArticles = [
     {
       id: "2",
       title: "פגישת ראש הממשלה עם שרי הממשלה בנושא המצב הביטחוני",
@@ -155,6 +209,45 @@ const Index = () => {
     },
   ];
 
+  const displayArticles = articles.length > 0 ? articles : fallbackArticles;
+  const displayFeatured = featuredArticle || {
+    id: '1',
+    title: 'מלחמת חרבות ברזל: דיווחים על התקדמות משמעותית בדרום הרצועה',
+    subtitle: 'כוחות צה"ל פועלים בעוצמה מול מחבלי חמאס בעזה',
+    image_url: heroImage,
+    category: 'ביטחוני',
+    is_featured: true,
+    published_at: new Date().toISOString(),
+  };
+
+  // Helper function to get image fallback
+  const getImageUrl = (article: Article | typeof displayFeatured) => {
+    if (article.image_url) return article.image_url;
+    
+    // Fallback images based on category
+    const categoryImages: Record<string, string> = {
+      'פוליטי': politicsImage,
+      'ביטחוני': breakingImage,
+      'בעולם': internationalImage,
+      'כלכלה': economyImage,
+      'מדעי': techImage,
+      'ספורט': breakingImage,
+    };
+    
+    return categoryImages[article.category] || heroImage;
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background">
+        <NewsHeader />
+        <div className="container mx-auto px-4 py-8 flex items-center justify-center">
+          <p className="text-muted-foreground">טוען...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-background">
       <NewsHeader />
@@ -166,10 +259,10 @@ const Index = () => {
           {/* Hero Article */}
           <div className="mb-8">
             <HeroArticle
-              title="מכה גדולה לישראל: הנחת התדמיתי החדש אחרי מלחמת "
-              subtitle="הצבא מדווח על הצלחות מבצעיות אך המחיר האנושי עדיין כבד"
-              image={politicsImage}
-              articleId="1"
+              title={displayFeatured.title}
+              subtitle={displayFeatured.subtitle || ''}
+              image={getImageUrl(displayFeatured)}
+              articleId={displayFeatured.id}
             />
           </div>
 
@@ -177,13 +270,13 @@ const Index = () => {
           <div className="mb-8 p-4 bg-gradient-to-r from-primary/10 to-transparent rounded-lg border-r-4 border-primary">
             <h2 className="text-xl font-bold mb-4 flex items-center gap-2">🔥 החמות ביותר כעת</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {articles.slice(0, 3).map((article, index) => (
+              {displayArticles.slice(0, 3).map((article) => (
                 <NewsArticle
-                  key={index}
+                  key={article.id}
                   title={article.title}
-                  image={article.image}
+                  image={getImageUrl(article)}
                   category={article.category}
-                  tags={article.tags}
+                  tags={[article.category]}
                   articleId={article.id}
                 />
               ))}
@@ -193,13 +286,13 @@ const Index = () => {
           {/* Article Grid */}
           <h2 className="text-2xl font-bold mb-6">כל החדשות</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {articles.map((article, index) => (
+            {displayArticles.map((article) => (
               <NewsArticle
-                key={index}
+                key={article.id}
                 title={article.title}
-                image={article.image}
+                image={getImageUrl(article)}
                 category={article.category}
-                tags={article.tags}
+                tags={[article.category]}
                 articleId={article.id}
               />
             ))}
