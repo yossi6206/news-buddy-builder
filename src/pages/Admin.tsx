@@ -32,6 +32,7 @@ const Admin = () => {
 
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string>('');
+  const [articleLoaded, setArticleLoaded] = useState(false);
 
   useEffect(() => {
     // Listen for auth changes FIRST
@@ -67,8 +68,8 @@ const Admin = () => {
   }, [canManageContent, roleLoading, navigate, toast, user, sessionLoading]);
 
   useEffect(() => {
-    // Load article if editing
-    if (articleId && user) {
+    // Load article if editing - only once
+    if (articleId && user && !articleLoaded) {
       const loadArticle = async () => {
         const { data, error } = await supabase
           .from('articles' as any)
@@ -97,12 +98,13 @@ const Admin = () => {
           if ((data as any).image_url) {
             setImagePreview((data as any).image_url);
           }
+          setArticleLoaded(true);
         }
       };
 
       loadArticle();
     }
-  }, [articleId, user, navigate, toast]);
+  }, [articleId, user, articleLoaded, navigate, toast]);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
