@@ -17,8 +17,8 @@ const HeroArticle = ({ title, subtitle, image, articleId = "1", authorName = "כ
     return publishDate.toLocaleTimeString('he-IL', { hour: '2-digit', minute: '2-digit', hour12: false });
   };
   return (
-    <Link to={`/article/${articleId}`} className="group cursor-pointer bg-card overflow-hidden block relative">
-      <div className="relative h-[380px] overflow-hidden">
+    <Link to={`/article/${articleId}`} className="group cursor-pointer bg-card overflow-hidden block relative rounded-xl">
+      <div className="relative h-[380px] overflow-hidden rounded-xl">
         <img
           src={image}
           alt={title}
