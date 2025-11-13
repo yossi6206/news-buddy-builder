@@ -32,8 +32,8 @@ const NewsHeader = () => {
       {/* Navigation */}
       <nav className="bg-card border-b">
         <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between py-3">
-            <button className="p-2 hover:bg-muted rounded-md transition-colors">
+          <div className="flex items-center justify-center py-3 relative">
+            <button className="absolute left-0 p-2 hover:bg-muted rounded-md transition-colors">
               <Search className="h-5 w-5" />
             </button>
             <div className="flex items-center gap-6 overflow-x-auto">
