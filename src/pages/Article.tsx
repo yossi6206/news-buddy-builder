@@ -18,7 +18,7 @@ const Article = () => {
   const allArticles = [
     {
       id: "1",
-      title: "מכה גדולה לישראל: הנחת התדמיתי החדש אחרי מלחמת עזה",
+      title: " גדולה לישראל: הנחת התדמיתי החדש אחרי מלחמת עזה",
       subtitle: "הצבא מדווח על הצלחות מבצעיות אך המחיר האנושי עדיין כבד",
       image: heroImage,
       category: "ביטחוני",
@@ -59,7 +59,7 @@ const Article = () => {
       date: "13 נובמבר 2025, 12:45",
       views: "9.7K",
       comments: 145,
-      tags: ["ארה\"ב", "דיפלומטיה", "עולם"],
+      tags: ['ארה"ב', "דיפלומטיה", "עולם"],
     },
     {
       id: "5",
@@ -206,7 +206,7 @@ const Article = () => {
     },
     {
       id: "18",
-      title: "האו\"ם דן היום בהצעה ישראלית לסיום המלחמה בעזה",
+      title: 'האו"ם דן היום בהצעה ישראלית לסיום המלחמה בעזה',
       image: internationalImage,
       category: "בעולם",
       author: "ליאור כץ",
@@ -253,9 +253,7 @@ const Article = () => {
   const article = allArticles.find((a) => a.id === id) || allArticles[0];
 
   // Filter related articles by the same category as the current article
-  const relatedArticles = allArticles
-    .filter((a) => a.id !== id && a.category === article.category)
-    .slice(0, 4);
+  const relatedArticles = allArticles.filter((a) => a.id !== id && a.category === article.category).slice(0, 4);
 
   return (
     <div className="min-h-screen bg-background">
@@ -283,15 +281,11 @@ const Article = () => {
             </div>
 
             {/* Title */}
-            <h1 className="text-4xl lg:text-5xl font-bold leading-tight mb-4 animate-fade-in">
-              {article.title}
-            </h1>
+            <h1 className="text-4xl lg:text-5xl font-bold leading-tight mb-4 animate-fade-in">{article.title}</h1>
 
             {/* Subtitle */}
             {article.subtitle && (
-              <p className="text-xl text-muted-foreground mb-6 animate-fade-in">
-                {article.subtitle}
-              </p>
+              <p className="text-xl text-muted-foreground mb-6 animate-fade-in">{article.subtitle}</p>
             )}
 
             {/* Meta Info */}
@@ -323,30 +317,28 @@ const Article = () => {
 
             {/* Article Image */}
             <div className="relative mb-8 rounded-lg overflow-hidden animate-fade-in">
-              <img
-                src={article.image}
-                alt={article.title}
-                className="w-full h-[400px] object-cover"
-              />
+              <img src={article.image} alt={article.title} className="w-full h-[400px] object-cover" />
             </div>
 
             {/* Article Content */}
             <div className="prose prose-lg max-w-none">
               <p className="text-lg leading-relaxed mb-6">
-                <strong className="font-bold">ירושלים -</strong> במהלך השעות האחרונות חלו התפתחויות דרמטיות במצב הביטחוני במדינה. 
-                גורמים בכירים במערכת הביטחון מדווחים על שינוי משמעותי בתמונת המצב, המצריך התייחסות דחופה ומקיפה.
+                <strong className="font-bold">ירושלים -</strong> במהלך השעות האחרונות חלו התפתחויות דרמטיות במצב
+                הביטחוני במדינה. גורמים בכירים במערכת הביטחון מדווחים על שינוי משמעותי בתמונת המצב, המצריך התייחסות
+                דחופה ומקיפה.
               </p>
 
               <p className="text-lg leading-relaxed mb-6">
-                על פי הדיווחים, ההתפתחויות האחרונות משקפות מציאות מורכבת ומאתגרת, הדורשת תגובה מדודה ואסטרטגית. 
-                גורמים ביטחוניים מדגישים כי המצב נמצא תחת מעקב צמוד, ומערכת הביטחון פועלת בכל הזמנים בכדי להבטיח את ביטחון האזרחים.
+                על פי הדיווחים, ההתפתחויות האחרונות משקפות מציאות מורכבת ומאתגרת, הדורשת תגובה מדודה ואסטרטגית. גורמים
+                ביטחוניים מדגישים כי המצב נמצא תחת מעקב צמוד, ומערכת הביטחון פועלת בכל הזמנים בכדי להבטיח את ביטחון
+                האזרחים.
               </p>
 
               <h2 className="text-2xl font-bold mt-8 mb-4">תגובות בזירה הבינלאומית</h2>
-              
+
               <p className="text-lg leading-relaxed mb-6">
-                בינתיים, הזירה הבינלאומית גם היא מגיבה להתפתחויות. ארצות הברית והמעצמות האירופיות עוקבות מקרוב אחר המתרחש,
-                ומנסות לקדם פתרונות דיפלומטיים לצד התמיכה בצעדי הביטחון הנדרשים.
+                בינתיים, הזירה הבינלאומית גם היא מגיבה להתפתחויות. ארצות הברית והמעצמות האירופיות עוקבות מקרוב אחר
+                המתרחש, ומנסות לקדם פתרונות דיפלומטיים לצד התמיכה בצעדי הביטחון הנדרשים.
               </p>
 
               <blockquote className="border-r-4 border-primary pr-4 my-8 italic text-xl text-muted-foreground">
@@ -356,20 +348,20 @@ const Article = () => {
               <h2 className="text-2xl font-bold mt-8 mb-4">השלכות כלכליות ותעשייתיות</h2>
 
               <p className="text-lg leading-relaxed mb-6">
-                המצב המורכב משפיע גם על הזירה הכלכלית. בורסת תל אביב הגיבה בתנודתיות למצב,
-                כאשר משקיעים מנסים להעריך את ההשלכות האפשריות על המשק הישראלי.
+                המצב המורכב משפיע גם על הזירה הכלכלית. בורסת תל אביב הגיבה בתנודתיות למצב, כאשר משקיעים מנסים להעריך את
+                ההשלכות האפשריות על המשק הישראלי.
               </p>
 
               <p className="text-lg leading-relaxed mb-6">
-                מומחי כלכלה מעריכים כי למרות המורכבות, המשק הישראלי ממשיך להפגין חוסן ויכולת התמודדות עם אתגרים.
-                החברות הטכנולוגיות ממשיכות לפעול כסדרן, והיצוא הישראלי שומר על יציבותו.
+                מומחי כלכלה מעריכים כי למרות המורכבות, המשק הישראלי ממשיך להפגין חוסן ויכולת התמודדות עם אתגרים. החברות
+                הטכנולוגיות ממשיכות לפעול כסדרן, והיצוא הישראלי שומר על יציבותו.
               </p>
 
               <h2 className="text-2xl font-bold mt-8 mb-4">מה צפוי בימים הקרובים?</h2>
 
               <p className="text-lg leading-relaxed mb-6">
-                במבט קדימה, הערכות הגורמים המקצועיים מצביעות על כך שהימים הקרובים יהיו קריטיים.
-                ההנהגה הביטחונית והפוליטית תידרש לקבל החלטות אסטרטגיות חשובות, שיעצבו את המציאות לטווח הארוך.
+                במבט קדימה, הערכות הגורמים המקצועיים מצביעות על כך שהימים הקרובים יהיו קריטיים. ההנהגה הביטחונית
+                והפוליטית תידרש לקבל החלטות אסטרטגיות חשובות, שיעצבו את המציאות לטווח הארוך.
               </p>
 
               <p className="text-lg leading-relaxed mb-6">
@@ -402,9 +394,7 @@ const Article = () => {
               {/* Newsletter */}
               <div className="mt-8 bg-gradient-to-br from-primary/10 to-primary/5 p-6 rounded-lg border border-primary/20">
                 <h3 className="text-lg font-bold mb-2">הירשם לניוזלטר</h3>
-                <p className="text-sm text-muted-foreground mb-4">
-                  קבל את החדשות החשובות ישירות למייל
-                </p>
+                <p className="text-sm text-muted-foreground mb-4">קבל את החדשות החשובות ישירות למייל</p>
                 <input
                   type="email"
                   placeholder="המייל שלך"
