@@ -168,7 +168,7 @@ const Index = () => {
             <HeroArticle
               title="מכה גדולה לישראל: הנחת התדמיתי החדש אחרי מלחמת "
               subtitle="הצבא מדווח על הצלחות מבצעיות אך המחיר האנושי עדיין כבד"
-              image={heroImage}
+              image={breakingnews}
               articleId="1"
             />
           </div>
