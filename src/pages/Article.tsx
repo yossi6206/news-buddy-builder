@@ -58,29 +58,30 @@ const Article = () => {
         // Load the main article
         const { data: articleData, error: articleError } = await supabase
           .from('articles' as any)
-          .select(`
-            *,
-            profiles:author_id (
-              full_name
-            )
-          `)
+          .select('*')
           .eq('id', id)
           .maybeSingle();
 
         if (articleError) throw articleError;
         
         if (articleData) {
-          setArticle(articleData as any);
+          // Load author profile
+          const { data: profileData } = await supabase
+            .from('profiles')
+            .select('full_name')
+            .eq('id', (articleData as any).author_id)
+            .maybeSingle();
+
+          const articleWithProfile = {
+            ...(articleData as any),
+            profiles: profileData || undefined
+          };
+          setArticle(articleWithProfile);
 
           // Load related articles from the same category
           const { data: relatedData, error: relatedError } = await supabase
             .from('articles' as any)
-            .select(`
-              *,
-              profiles:author_id (
-                full_name
-              )
-            `)
+            .select('*')
             .eq('category', (articleData as any).category)
             .neq('id', id)
             .order('created_at', { ascending: false })
