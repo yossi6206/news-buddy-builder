@@ -1,10 +1,15 @@
 import { useParams, Link } from "react-router-dom";
-import { ArrowRight, Share2, Bookmark, Clock, User } from "lucide-react";
+import { ArrowRight, Share2, Bookmark, Clock, User as UserIcon, Edit } from "lucide-react";
 import NewsHeader from "@/components/NewsHeader";
 import BreakingNewsTicker from "@/components/BreakingNewsTicker";
 import NewsArticle from "@/components/NewsArticle";
 import NewsFooter from "@/components/NewsFooter";
 import CommentsSection from "@/components/CommentsSection";
+import { useUserRole } from "@/hooks/useUserRole";
+import { supabase } from "@/integrations/supabase/client";
+import { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import type { User } from "@supabase/supabase-js";
 import heroImage from "@/assets/hero-news.jpg";
 import politicsImage from "@/assets/politics-news.jpg";
 import breakingImage from "@/assets/breaking-news.jpg";
@@ -14,6 +19,20 @@ import techImage from "@/assets/tech-news.jpg";
 
 const Article = () => {
   const { id } = useParams();
+  const [user, setUser] = useState<User | null>(null);
+  const { canManageContent } = useUserRole(user);
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user ?? null);
+    });
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
 
   const allArticles = [
     {
@@ -291,7 +310,7 @@ const Article = () => {
             {/* Meta Info */}
             <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground border-b pb-4 mb-6">
               <div className="flex items-center gap-2">
-                <User className="h-4 w-4" />
+                <UserIcon className="h-4 w-4" />
                 <span className="font-medium text-foreground">{article.author}</span>
               </div>
               <div className="flex items-center gap-2">
@@ -313,6 +332,14 @@ const Article = () => {
                 <Bookmark className="h-4 w-4" />
                 שמור לקריאה
               </button>
+              {canManageContent && (
+                <Link to={`/admin/${id}`}>
+                  <Button variant="outline" className="flex items-center gap-2">
+                    <Edit className="h-4 w-4" />
+                    ערוך כתבה
+                  </Button>
+                </Link>
+              )}
             </div>
 
             {/* Article Image */}
