@@ -24,7 +24,7 @@ const LiveVideoSection = () => {
             { title: "פגוש את העיתונות", time: "18:30" },
             { title: "סיכום היום", time: "23:00" },
           ].map((show, index) => (
-            <div key={index} className="flex items-center justify-between p-2 hover:bg-muted rounded-lg transition-colors cursor-pointer">
+            <div className="flex items-center justify-between p-2 hover:bg-muted rounded-xl transition-colors cursor-pointer">
               <div className="flex items-center gap-2">
                 <PlayCircle className="h-4 w-4 text-primary" />
                 <span className="text-sm font-medium">{show.title}</span>

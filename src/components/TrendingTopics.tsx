@@ -22,7 +22,7 @@ const TrendingTopics = () => {
         {topics.map((topic, index) => (
           <div 
             key={index} 
-            className="flex items-center justify-between p-3 hover:bg-muted rounded-lg transition-colors cursor-pointer group"
+            className="flex items-center justify-between p-3 hover:bg-muted rounded-xl transition-colors cursor-pointer group"
           >
             <div className="flex items-center gap-3 flex-1">
               <div className="flex items-center justify-center w-8 h-8 bg-primary/10 text-primary rounded-full font-bold text-sm group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
