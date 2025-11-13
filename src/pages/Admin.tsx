@@ -32,11 +32,13 @@ const Admin = () => {
   const [imagePreview, setImagePreview] = useState<string>('');
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    // Listen for auth changes FIRST
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null);
     });
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+    // THEN get initial session
+    supabase.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user ?? null);
     });
 
@@ -44,6 +46,12 @@ const Admin = () => {
   }, []);
 
   useEffect(() => {
+    // Redirect unauthenticated users to login after roles finish loading
+    if (!roleLoading && !user) {
+      navigate('/auth');
+      return;
+    }
+
     // Only redirect if: user exists, roles have finished loading, and user doesn't have permission
     if (user && !roleLoading && !canManageContent) {
       toast({
