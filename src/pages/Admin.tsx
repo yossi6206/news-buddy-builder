@@ -183,6 +183,13 @@ const Admin = () => {
       }
 
       if (articleId) {
+        // Get user profile to get editor name
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('full_name')
+          .eq('id', user.id)
+          .maybeSingle();
+
         // Update existing article
         const { error } = await supabase
           .from('articles' as any)
@@ -193,6 +200,7 @@ const Admin = () => {
             category: formData.category,
             image_url: imageUrl,
             is_featured: formData.isFeatured,
+            author_name: profile?.full_name || user.email?.split('@')[0] || 'עורך',
           })
           .eq('id', articleId);
 
@@ -205,6 +213,13 @@ const Admin = () => {
 
         navigate(`/article/${articleId}`);
       } else {
+        // Get user profile to get author name
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('full_name')
+          .eq('id', user.id)
+          .maybeSingle();
+
         // Create new article
         const { error } = await supabase.from('articles' as any).insert({
           title: formData.title,
@@ -213,6 +228,7 @@ const Admin = () => {
           category: formData.category,
           image_url: imageUrl,
           author_id: user.id,
+          author_name: profile?.full_name || user.email?.split('@')[0] || 'כתב',
           is_featured: formData.isFeatured,
         });
 
