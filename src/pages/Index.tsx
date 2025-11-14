@@ -11,6 +11,7 @@ import StockMarketWidget from "@/components/StockMarketWidget";
 import LiveVideoSection from "@/components/LiveVideoSection";
 import CategorySection from "@/components/CategorySection";
 import TrendingTopics from "@/components/TrendingTopics";
+import AdBanner from "@/components/AdBanner";
 import heroImage from "@/assets/hero-news.jpg";
 import politicsImage from "@/assets/politics-news.jpg";
 import breakingImage from "@/assets/breaking-news.jpg";
@@ -341,6 +342,11 @@ const Index = () => {
                 )}
               </div>
 
+              {/* Ad Banner after Hero */}
+              <div className="mb-6">
+                <AdBanner type="horizontal" size="medium" />
+              </div>
+
               {/* Articles Grid - 4 columns */}
               {loading ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
@@ -366,6 +372,11 @@ const Index = () => {
                 </div>
               )}
 
+              {/* Ad Banner after first articles grid */}
+              <div className="mb-8">
+                <AdBanner type="horizontal" size="large" />
+              </div>
+
               {/* More Articles Section */}
               {displayArticles.length > 8 && (
                 <div className="mt-8">
@@ -384,12 +395,26 @@ const Index = () => {
                       />
                     ))}
                   </div>
+
+                  {/* Ad Banner after more articles */}
+                  <div className="mt-8">
+                    <AdBanner type="horizontal" size="medium" />
+                  </div>
                 </div>
               )}
             </div>
 
-            {/* Updates Sidebar - Right Side */}
-            <UpdatesSidebar />
+            {/* Sidebar with Ads */}
+            <div className="hidden lg:flex lg:flex-col gap-6">
+              {/* Ad Banner in sidebar */}
+              <AdBanner type="vertical" size="large" />
+              
+              {/* Updates Sidebar - Right Side */}
+              <UpdatesSidebar />
+              
+              {/* Another Ad Banner in sidebar */}
+              <AdBanner type="vertical" size="medium" />
+            </div>
           </div>
         </div>
       </main>
