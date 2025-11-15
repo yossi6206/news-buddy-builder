@@ -6,6 +6,12 @@ import partnerAd from "@/assets/ads/partner-ad.jpg";
 import superpharmAd from "@/assets/ads/superpharm-ad.jpg";
 import elalAd from "@/assets/ads/elal-ad.jpg";
 import ikeaAd from "@/assets/ads/ikea-ad.jpg";
+import maxstockAd from "@/assets/ads/maxstock-ad.jpg";
+import castroAd from "@/assets/ads/castro-ad.jpg";
+import foxAd from "@/assets/ads/fox-ad.jpg";
+import shufersalAd from "@/assets/ads/shufersal-ad.jpg";
+import osheradAd from "@/assets/ads/osherad-ad.jpg";
+import cellcomAd from "@/assets/ads/cellcom-ad.jpg";
 
 interface AdBannerProps {
   type?: "horizontal" | "vertical";
@@ -68,15 +74,67 @@ const AdBanner = ({ type = "horizontal", size = "medium" }: AdBannerProps) => {
       subtitle: "רהיטים חכמים לבית מודרני",
       cta: "גלו עכשיו",
       image: ikeaAd
+    },
+    {
+      brand: "מקס סטוק",
+      title: "חדש בחנויות",
+      subtitle: "מבחר עצום של רהיטים במחירים מיוחדים",
+      cta: "קנו עכשיו",
+      image: maxstockAd
+    },
+    {
+      brand: "קסטרו",
+      title: "קולקציית חורף 2024",
+      subtitle: "אופנה עכשווית לכל המשפחה",
+      cta: "גלו את הקולקציה",
+      image: castroAd
+    },
+    {
+      brand: "פוקס",
+      title: "סטייל חדש לעונה",
+      subtitle: "מגמות האופנה החמות ביותר",
+      cta: "לחנות המקוונת",
+      image: foxAd
+    },
+    {
+      brand: "שופרסל",
+      title: "טרי מהמשק",
+      subtitle: "פירות וירקות טריים במחירים הוגנים",
+      cta: "קנו אונליין",
+      image: shufersalAd
+    },
+    {
+      brand: "אושר עד",
+      title: "מבצעי סוף שבוע",
+      subtitle: "חסכו עד 50% על מוצרים נבחרים",
+      cta: "למבצעים",
+      image: osheradAd
+    },
+    {
+      brand: "סלקום",
+      title: "רשת 5G מתקדמת",
+      subtitle: "מהירות גלישה מירבית בכל מקום",
+      cta: "הצטרפו היום",
+      image: cellcomAd
     }
   ];
 
-  // Select ad based on type and size
+  // Select ad based on type and size with rotation
   const getAdIndex = () => {
-    if (type === "vertical") return size === "large" ? 0 : 2;
-    if (size === "large") return 1;
-    if (size === "small") return 3;
-    return 4;
+    const now = Date.now();
+    const rotationInterval = 5000; // Rotate every 5 seconds
+    const rotationIndex = Math.floor(now / rotationInterval) % ads.length;
+    
+    if (type === "vertical") {
+      return rotationIndex % ads.length;
+    }
+    if (size === "large") {
+      return (rotationIndex + 1) % ads.length;
+    }
+    if (size === "small") {
+      return (rotationIndex + 2) % ads.length;
+    }
+    return (rotationIndex + 3) % ads.length;
   };
 
   const ad = ads[getAdIndex()];
