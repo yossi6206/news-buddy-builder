@@ -11,6 +11,7 @@ import { useToast } from '@/hooks/use-toast';
 import { ArrowRight, Upload, Loader2 } from 'lucide-react';
 import NewsHeader from '@/components/NewsHeader';
 import BreakingNewsManager from '@/components/BreakingNewsManager';
+import AdsManager from '@/components/AdsManager';
 import type { User } from '@supabase/supabase-js';
 import { z } from 'zod';
 
@@ -308,6 +309,8 @@ const Admin = () => {
 
         <div className="space-y-8">
           <BreakingNewsManager />
+          
+          <AdsManager />
           
           <Card>
           <CardHeader>
