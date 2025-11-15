@@ -2,21 +2,37 @@ import { AlertCircle } from "lucide-react";
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 
+interface BreakingNewsItem {
+  id: string;
+  content: string;
+  is_active: boolean;
+  order_index: number;
+}
+
 const BreakingNewsTicker = () => {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [breakingNews, setBreakingNews] = useState<string[]>([]);
+
+  // Update time every minute
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 60000); // Update every minute
+
+    return () => clearInterval(timer);
+  }, []);
 
   // Fetch breaking news from database
   useEffect(() => {
     const fetchBreakingNews = async () => {
       const { data, error } = await supabase
         .from('breaking_news')
-        .select('content')
+        .select('*')
         .eq('is_active', true)
         .order('order_index', { ascending: true });
 
       if (!error && data) {
-        setBreakingNews(data.map(item => item.content));
+        setBreakingNews(data.map((item: BreakingNewsItem) => item.content));
       }
     };
 
@@ -24,7 +40,7 @@ const BreakingNewsTicker = () => {
 
     // Subscribe to realtime updates
     const channel = supabase
-      .channel('breaking_news_changes')
+      .channel('breaking_news_ticker')
       .on(
         'postgres_changes',
         {
@@ -43,15 +59,6 @@ const BreakingNewsTicker = () => {
     };
   }, []);
 
-  // Update time every minute
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentTime(new Date());
-    }, 60000);
-
-    return () => clearInterval(timer);
-  }, []);
-
   const getFormattedTime = () => {
     const hours = currentTime.getHours().toString().padStart(2, '0');
     const minutes = currentTime.getMinutes().toString().padStart(2, '0');
@@ -68,22 +75,18 @@ const BreakingNewsTicker = () => {
           <span className="font-bold text-sm">ברוח טרנס</span>
         </div>
         <div className="flex-1 overflow-hidden">
-          {breakingNews.length > 0 ? (
-            <div className="flex gap-8 animate-marquee">
-              {breakingNews.map((news, index) => (
-                <span key={index} className="text-sm whitespace-nowrap">
-                  • {news}
-                </span>
-              ))}
-              {breakingNews.map((news, index) => (
-                <span key={`dup-${index}`} className="text-sm whitespace-nowrap">
-                  • {news}
-                </span>
-              ))}
-            </div>
-          ) : (
-            <span className="text-sm">אין חדשות שוברות כרגע</span>
-          )}
+          <div className="flex gap-8 animate-marquee">
+            {breakingNews.map((news, index) => (
+              <span key={index} className="text-sm whitespace-nowrap">
+                • {news}
+              </span>
+            ))}
+            {breakingNews.map((news, index) => (
+              <span key={`dup-${index}`} className="text-sm whitespace-nowrap">
+                • {news}
+              </span>
+            ))}
+          </div>
         </div>
       </div>
     </div>
