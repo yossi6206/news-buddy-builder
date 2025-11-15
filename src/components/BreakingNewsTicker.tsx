@@ -1,14 +1,53 @@
 import { AlertCircle } from "lucide-react";
 import { useState, useEffect } from "react";
+import { supabase } from "@/integrations/supabase/client";
 
 const BreakingNewsTicker = () => {
   const [currentTime, setCurrentTime] = useState(new Date());
+  const [breakingNews, setBreakingNews] = useState<string[]>([]);
+
+  // Fetch breaking news from database
+  useEffect(() => {
+    const fetchBreakingNews = async () => {
+      const { data, error } = await supabase
+        .from('breaking_news')
+        .select('content')
+        .eq('is_active', true)
+        .order('order_index', { ascending: true });
+
+      if (!error && data) {
+        setBreakingNews(data.map(item => item.content));
+      }
+    };
+
+    fetchBreakingNews();
+
+    // Subscribe to realtime updates
+    const channel = supabase
+      .channel('breaking_news_changes')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'breaking_news'
+        },
+        () => {
+          fetchBreakingNews();
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, []);
 
   // Update time every minute
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentTime(new Date());
-    }, 60000); // Update every minute
+    }, 60000);
 
     return () => clearInterval(timer);
   }, []);
@@ -18,12 +57,6 @@ const BreakingNewsTicker = () => {
     const minutes = currentTime.getMinutes().toString().padStart(2, '0');
     return `${hours}:${minutes}`;
   };
-
-  const breakingNews = [
-    "דיווח: ישראל ומצרים מנהלות מגעים אינטנסיביים לעסקת שחרור חטופים",
-    "שוק ההון: מדד תל אביב 35 עולה ב-1.2% בפתיחת המסחר",
-    "מזג האויר: התחזית לימים הקרובים - גשמים כבדים בצפון הארץ",
-  ];
 
   return (
     <div className="bg-[hsl(var(--breaking-news))] text-white overflow-hidden">
@@ -35,18 +68,22 @@ const BreakingNewsTicker = () => {
           <span className="font-bold text-sm">ברוח טרנס</span>
         </div>
         <div className="flex-1 overflow-hidden">
-          <div className="flex gap-8 animate-marquee">
-            {breakingNews.map((news, index) => (
-              <span key={index} className="text-sm whitespace-nowrap">
-                • {news}
-              </span>
-            ))}
-            {breakingNews.map((news, index) => (
-              <span key={`dup-${index}`} className="text-sm whitespace-nowrap">
-                • {news}
-              </span>
-            ))}
-          </div>
+          {breakingNews.length > 0 ? (
+            <div className="flex gap-8 animate-marquee">
+              {breakingNews.map((news, index) => (
+                <span key={index} className="text-sm whitespace-nowrap">
+                  • {news}
+                </span>
+              ))}
+              {breakingNews.map((news, index) => (
+                <span key={`dup-${index}`} className="text-sm whitespace-nowrap">
+                  • {news}
+                </span>
+              ))}
+            </div>
+          ) : (
+            <span className="text-sm">אין חדשות שוברות כרגע</span>
+          )}
         </div>
       </div>
     </div>
