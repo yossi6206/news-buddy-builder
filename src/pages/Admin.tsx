@@ -10,6 +10,7 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/com
 import { useToast } from '@/hooks/use-toast';
 import { ArrowRight, Upload, Loader2 } from 'lucide-react';
 import NewsHeader from '@/components/NewsHeader';
+import BreakingNewsManager from '@/components/BreakingNewsManager';
 import type { User } from '@supabase/supabase-js';
 import { z } from 'zod';
 
@@ -305,7 +306,10 @@ const Admin = () => {
           </Button>
         </div>
 
-        <Card>
+        <div className="space-y-8">
+          <BreakingNewsManager />
+          
+          <Card>
           <CardHeader>
             <CardTitle>{articleId ? 'עריכת כתבה' : 'כתבה חדשה'}</CardTitle>
             <CardDescription>
@@ -430,6 +434,7 @@ const Admin = () => {
             </form>
           </CardContent>
         </Card>
+        </div>
       </div>
     </div>
   );
