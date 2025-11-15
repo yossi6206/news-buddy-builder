@@ -12,6 +12,11 @@ import foxAd from "@/assets/ads/fox-ad.jpg";
 import shufersalAd from "@/assets/ads/shufersal-ad.jpg";
 import osheradAd from "@/assets/ads/osherad-ad.jpg";
 import cellcomAd from "@/assets/ads/cellcom-ad.jpg";
+import bezeqAd from "@/assets/ads/bezeq-ad.jpg";
+import ramileviAd from "@/assets/ads/ramilevi-ad.jpg";
+import leumiAd from "@/assets/ads/leumi-ad.jpg";
+import renaultAd from "@/assets/ads/renault-ad.jpg";
+import aromaAd from "@/assets/ads/aroma-ad.jpg";
 
 interface AdBannerProps {
   type?: "horizontal" | "vertical";
@@ -116,6 +121,41 @@ const AdBanner = ({ type = "horizontal", size = "medium" }: AdBannerProps) => {
       subtitle: "מהירות גלישה מירבית בכל מקום",
       cta: "הצטרפו היום",
       image: cellcomAd
+    },
+    {
+      brand: "בזק",
+      title: "אינטרנט סיבים אופטיים",
+      subtitle: "מהירות עד 1GB לבית שלכם",
+      cta: "להצעה מיוחדת",
+      image: bezeqAd
+    },
+    {
+      brand: "רמי לוי",
+      title: "קניות חכמות",
+      subtitle: "המחירים הטובים ביותר בשוק",
+      cta: "לחנות המקוונת",
+      image: ramileviAd
+    },
+    {
+      brand: "בנק לאומי",
+      title: "בנקאות דיגיטלית",
+      subtitle: "נהל את הכסף שלך בקליק",
+      cta: "פתח חשבון",
+      image: leumiAd
+    },
+    {
+      brand: "רנו ישראל",
+      title: "דגמי 2024 החדשים",
+      subtitle: "עיצוב מודרני וטכנולוגיה מתקדמת",
+      cta: "הזמן נסיעת מבחן",
+      image: renaultAd
+    },
+    {
+      brand: "ארומה",
+      title: "קפה איכותי",
+      subtitle: "הקפה הטוב בישראל",
+      cta: "למועדון לקוחות",
+      image: aromaAd
     }
   ];
 
