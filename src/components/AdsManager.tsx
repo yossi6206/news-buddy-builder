@@ -179,15 +179,13 @@ const AdsManager = () => {
   const confirmDelete = async () => {
     if (!adToDelete) return;
 
-    const { error } = await supabase
-      .from('ads')
-      .delete()
-      .eq('id', adToDelete);
+    // Use RPC function to avoid AdBlockers blocking DELETE requests to /ads
+    const { error } = await supabase.rpc('delete_ad', { _id: adToDelete });
 
     if (error) {
       toast({
         title: 'שגיאה',
-        description: 'שגיאה במחיקת פרסומת',
+        description: 'שגיאה במחיקת פרסומת: ' + error.message,
         variant: 'destructive',
       });
     } else {
