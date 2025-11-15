@@ -7,6 +7,16 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { useToast } from '@/hooks/use-toast';
 import { Plus, Trash2, ArrowUp, ArrowDown, Upload } from 'lucide-react';
 import { Label } from '@/components/ui/label';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
 
 interface Ad {
   id: string;
@@ -29,6 +39,8 @@ const AdsManager = () => {
   });
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [adToDelete, setAdToDelete] = useState<string | null>(null);
 
   useEffect(() => {
     fetchAds();
@@ -159,11 +171,18 @@ const AdsManager = () => {
     setLoading(false);
   };
 
-  const deleteAd = async (id: string) => {
+  const handleDeleteClick = (id: string) => {
+    setAdToDelete(id);
+    setDeleteDialogOpen(true);
+  };
+
+  const confirmDelete = async () => {
+    if (!adToDelete) return;
+
     const { error } = await supabase
       .from('ads')
       .delete()
-      .eq('id', id);
+      .eq('id', adToDelete);
 
     if (error) {
       toast({
@@ -177,6 +196,9 @@ const AdsManager = () => {
         description: 'פרסומת נמחקה בהצלחה',
       });
     }
+
+    setDeleteDialogOpen(false);
+    setAdToDelete(null);
   };
 
   const toggleActive = async (id: string, currentState: boolean) => {
@@ -351,7 +373,7 @@ const AdsManager = () => {
               <Button
                 variant="destructive"
                 size="sm"
-                onClick={() => deleteAd(ad.id)}
+                onClick={() => handleDeleteClick(ad.id)}
               >
                 <Trash2 className="h-4 w-4" />
               </Button>
@@ -364,6 +386,23 @@ const AdsManager = () => {
           )}
         </div>
       </CardContent>
+
+      <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>האם אתה בטוח?</AlertDialogTitle>
+            <AlertDialogDescription>
+              פעולה זו תמחק את הפרסומת לצמיתות. לא ניתן לבטל את הפעולה.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>ביטול</AlertDialogCancel>
+            <AlertDialogAction onClick={confirmDelete} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
+              מחק
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </Card>
   );
 };
