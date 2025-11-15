@@ -82,48 +82,46 @@ const AdBanner = ({ type = "horizontal", size = "medium" }: AdBannerProps) => {
   const ad = ads[getAdIndex()];
 
   return (
-    <Card className={`${getHeight()} w-full overflow-hidden group hover:shadow-xl transition-all duration-300 cursor-pointer border-0 relative`}>
+    <Card className={`${getHeight()} w-full overflow-hidden group hover:shadow-2xl transition-all duration-500 cursor-pointer border-0 relative`}>
       {/* Background Image */}
       <img 
         src={ad.image} 
         alt={ad.title}
-        className="absolute inset-0 w-full h-full object-cover"
+        className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
       />
       
-      {/* Overlay for text readability */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-black/20" />
+      {/* Subtle Overlay for text readability */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
       
       {/* Content */}
-      <div className={`relative z-10 h-full ${type === "vertical" ? "flex flex-col justify-end p-6 space-y-4" : "flex items-center justify-between p-6"}`}>
+      <div className={`relative z-10 h-full ${type === "vertical" ? "flex flex-col justify-end p-8 space-y-4" : "flex items-center justify-between p-6"}`}>
         {type === "vertical" ? (
           <>
             <div className="space-y-3">
-              <div className="text-white/90 text-xs font-medium tracking-wider uppercase">{ad.brand}</div>
-              <h3 className="text-white text-2xl font-bold leading-tight">{ad.title}</h3>
-              <p className="text-white/90 text-base">{ad.subtitle}</p>
+              <div className="text-white/95 text-sm font-semibold tracking-wide uppercase backdrop-blur-sm bg-white/10 px-3 py-1 rounded-full w-fit">{ad.brand}</div>
+              <h3 className="text-white text-3xl font-bold leading-tight drop-shadow-lg">{ad.title}</h3>
+              <p className="text-white/95 text-lg drop-shadow-md">{ad.subtitle}</p>
             </div>
             <Button 
               size="lg" 
-              className="bg-white text-foreground hover:bg-white/90 font-bold w-full shadow-lg"
+              className="bg-white text-foreground hover:bg-white/95 font-bold w-full shadow-2xl hover:shadow-white/20 transition-all duration-300 hover:scale-[1.02]"
             >
               {ad.cta}
             </Button>
-            <div className="absolute top-3 right-3 bg-black/50 text-white/90 text-[10px] px-2 py-1 rounded">פרסומת</div>
           </>
         ) : (
           <>
-            <div className="flex-1 space-y-1">
-              <div className="text-white/80 text-[10px] font-medium uppercase tracking-wider">{ad.brand}</div>
-              <h3 className="text-white text-xl font-bold leading-tight">{ad.title}</h3>
-              <p className="text-white/90 text-sm">{ad.subtitle}</p>
+            <div className="flex-1 space-y-2">
+              <div className="text-white/95 text-xs font-semibold uppercase tracking-wide backdrop-blur-sm bg-white/10 px-2.5 py-0.5 rounded-full w-fit">{ad.brand}</div>
+              <h3 className="text-white text-xl font-bold leading-tight drop-shadow-lg">{ad.title}</h3>
+              <p className="text-white/95 text-sm drop-shadow-md">{ad.subtitle}</p>
             </div>
             <Button 
               size={size === "large" ? "lg" : "default"}
-              className="bg-white text-foreground hover:bg-white/90 font-bold shadow-lg whitespace-nowrap"
+              className="bg-white text-foreground hover:bg-white/95 font-bold shadow-2xl whitespace-nowrap hover:shadow-white/20 transition-all duration-300 hover:scale-[1.02]"
             >
               {ad.cta}
             </Button>
-            <div className="absolute top-2 right-2 bg-black/50 text-white/90 text-[9px] px-2 py-0.5 rounded">פרסומת</div>
           </>
         )}
       </div>
