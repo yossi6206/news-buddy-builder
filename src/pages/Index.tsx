@@ -344,7 +344,7 @@ const Index = () => {
 
               {/* Ad Banner after Hero */}
               <div className="mb-6">
-                <AdBanner type="horizontal" size="medium" />
+                <AdBanner type="horizontal" size="medium" position="content" />
               </div>
 
               {/* Articles Grid - 4 columns */}
@@ -374,7 +374,7 @@ const Index = () => {
 
               {/* Ad Banner after first articles grid */}
               <div className="mb-8">
-                <AdBanner type="horizontal" size="large" />
+                <AdBanner type="horizontal" size="large" position="content" />
               </div>
 
               {/* More Articles Section */}
@@ -398,7 +398,7 @@ const Index = () => {
 
                   {/* Ad Banner after more articles */}
                   <div className="mt-8">
-                    <AdBanner type="horizontal" size="medium" />
+                    <AdBanner type="horizontal" size="medium" position="content" />
                   </div>
                 </div>
               )}
@@ -407,7 +407,7 @@ const Index = () => {
             {/* Sidebar with Ads */}
             <div className="hidden lg:flex lg:flex-col gap-6">
               {/* Ad Banner in sidebar */}
-              <AdBanner type="vertical" size="large" />
+              <AdBanner type="vertical" size="large" position="sidebar" />
               
               {/* Updates Sidebar - Right Side */}
               <UpdatesSidebar />
