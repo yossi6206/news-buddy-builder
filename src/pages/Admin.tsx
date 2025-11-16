@@ -49,6 +49,35 @@ const Admin = () => {
   const [imagePreview, setImagePreview] = useState<string>('');
   const [articleLoaded, setArticleLoaded] = useState(false);
 
+  // Load draft from localStorage on mount
+  useEffect(() => {
+    if (!articleId) {
+      const draft = localStorage.getItem('article-draft');
+      if (draft) {
+        try {
+          const parsed = JSON.parse(draft);
+          setFormData(parsed.formData);
+          if (parsed.imagePreview) {
+            setImagePreview(parsed.imagePreview);
+          }
+        } catch (error) {
+          console.error('Error loading draft:', error);
+        }
+      }
+    }
+  }, [articleId]);
+
+  // Save draft to localStorage whenever form data changes
+  useEffect(() => {
+    if (!articleId && (formData.title || formData.content)) {
+      const draft = {
+        formData,
+        imagePreview,
+      };
+      localStorage.setItem('article-draft', JSON.stringify(draft));
+    }
+  }, [formData, imagePreview, articleId]);
+
   useEffect(() => {
     // Listen for auth changes FIRST
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
@@ -255,6 +284,9 @@ const Admin = () => {
           title: 'הצלחה!',
           description: 'הכתבה פורסמה בהצלחה',
         });
+
+        // Clear draft from localStorage
+        localStorage.removeItem('article-draft');
 
         // Reset form
         setFormData({
