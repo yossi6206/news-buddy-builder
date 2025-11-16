@@ -41,6 +41,34 @@ const AdsManager = () => {
   const [loading, setLoading] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [adToDelete, setAdToDelete] = useState<string | null>(null);
+  const [imagePreview, setImagePreview] = useState<string>('');
+
+  // Load draft from localStorage on mount
+  useEffect(() => {
+    const draft = localStorage.getItem('ad-draft');
+    if (draft) {
+      try {
+        const parsed = JSON.parse(draft);
+        setNewAd(parsed.newAd);
+        if (parsed.imagePreview) {
+          setImagePreview(parsed.imagePreview);
+        }
+      } catch (error) {
+        console.error('Error loading draft:', error);
+      }
+    }
+  }, []);
+
+  // Save draft to localStorage whenever form data changes
+  useEffect(() => {
+    if (newAd.title || newAd.image_url || newAd.link_url) {
+      const draft = {
+        newAd,
+        imagePreview,
+      };
+      localStorage.setItem('ad-draft', JSON.stringify(draft));
+    }
+  }, [newAd, imagePreview]);
 
   useEffect(() => {
     fetchAds();
@@ -79,7 +107,15 @@ const AdsManager = () => {
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      setImageFile(e.target.files[0]);
+      const file = e.target.files[0];
+      setImageFile(file);
+      
+      // Create preview
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
     }
   };
 
@@ -166,6 +202,9 @@ const AdsManager = () => {
       });
       setNewAd({ title: '', image_url: '', link_url: '', position: 'sidebar' });
       setImageFile(null);
+      setImagePreview('');
+      // Clear draft from localStorage
+      localStorage.removeItem('ad-draft');
     }
     
     setLoading(false);
@@ -282,7 +321,16 @@ const AdsManager = () => {
                 </Button>
               </div>
             </div>
-            {imageFile && (
+            {imagePreview && (
+              <div className="mt-2">
+                <img
+                  src={imagePreview}
+                  alt="תצוגה מקדימה"
+                  className="w-full max-w-md rounded-lg border"
+                />
+              </div>
+            )}
+            {imageFile && !imagePreview && (
               <p className="text-sm text-muted-foreground">קובץ נבחר: {imageFile.name}</p>
             )}
           </div>
