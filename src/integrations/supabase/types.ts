@@ -181,6 +181,45 @@ export type Database = {
         }
         Relationships: []
       }
+      reporter_updates: {
+        Row: {
+          author_name: string
+          avatar_url: string | null
+          created_at: string
+          id: string
+          is_active: boolean
+          is_live: boolean
+          order_index: number
+          time: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          author_name: string
+          avatar_url?: string | null
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          is_live?: boolean
+          order_index?: number
+          time?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          author_name?: string
+          avatar_url?: string | null
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          is_live?: boolean
+          order_index?: number
+          time?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string
@@ -208,6 +247,7 @@ export type Database = {
     }
     Functions: {
       delete_ad: { Args: { _id: string }; Returns: undefined }
+      delete_reporter_update: { Args: { _id: string }; Returns: undefined }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]

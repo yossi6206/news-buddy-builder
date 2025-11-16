@@ -12,6 +12,7 @@ import { ArrowRight, Upload, Loader2 } from 'lucide-react';
 import NewsHeader from '@/components/NewsHeader';
 import BreakingNewsManager from '@/components/BreakingNewsManager';
 import AdsManager from '@/components/AdsManager';
+import ReporterUpdatesManager from '@/components/ReporterUpdatesManager';
 import type { User } from '@supabase/supabase-js';
 import { z } from 'zod';
 
@@ -311,6 +312,8 @@ const Admin = () => {
           <BreakingNewsManager />
           
           <AdsManager />
+          
+          <ReporterUpdatesManager />
           
           <Card>
           <CardHeader>
