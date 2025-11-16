@@ -19,6 +19,25 @@ const BreakingNewsManager = () => {
   const [newContent, setNewContent] = useState('');
   const [loading, setLoading] = useState(false);
 
+  // Load draft from localStorage on mount
+  useEffect(() => {
+    const draft = localStorage.getItem('breaking-news-draft');
+    if (draft) {
+      try {
+        setNewContent(draft);
+      } catch (error) {
+        console.error('Error loading draft:', error);
+      }
+    }
+  }, []);
+
+  // Save draft to localStorage whenever content changes
+  useEffect(() => {
+    if (newContent.trim()) {
+      localStorage.setItem('breaking-news-draft', newContent);
+    }
+  }, [newContent]);
+
   useEffect(() => {
     fetchBreakingNews();
 
@@ -87,6 +106,8 @@ const BreakingNewsManager = () => {
         description: 'חדשה שוברת נוספה בהצלחה',
       });
       setNewContent('');
+      // Clear draft from localStorage
+      localStorage.removeItem('breaking-news-draft');
     }
     
     setLoading(false);
