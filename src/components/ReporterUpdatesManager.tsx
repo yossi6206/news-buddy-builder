@@ -36,6 +36,35 @@ const ReporterUpdatesManager = () => {
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string>('');
 
+  // Load draft from localStorage on mount
+  useEffect(() => {
+    if (!editingId) {
+      const draft = localStorage.getItem('reporter-update-draft');
+      if (draft) {
+        try {
+          const parsed = JSON.parse(draft);
+          setFormData(parsed.formData);
+          if (parsed.imagePreview) {
+            setImagePreview(parsed.imagePreview);
+          }
+        } catch (error) {
+          console.error('Error loading draft:', error);
+        }
+      }
+    }
+  }, [editingId]);
+
+  // Save draft to localStorage whenever form data changes
+  useEffect(() => {
+    if (!editingId && (formData.author_name || formData.title)) {
+      const draft = {
+        formData,
+        imagePreview,
+      };
+      localStorage.setItem('reporter-update-draft', JSON.stringify(draft));
+    }
+  }, [formData, imagePreview, editingId]);
+
   useEffect(() => {
     fetchUpdates();
   }, []);
@@ -135,6 +164,8 @@ const ReporterUpdatesManager = () => {
 
       resetForm();
       fetchUpdates();
+      // Clear draft from localStorage
+      localStorage.removeItem('reporter-update-draft');
     } catch (error: any) {
       toast({
         title: 'שגיאה',
