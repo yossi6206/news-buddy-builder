@@ -43,7 +43,7 @@ const Index = () => {
           .from('articles' as any)
           .select('*')
           .eq('is_featured', true)
-          .order('published_at', { ascending: false })
+          .order('updated_at', { ascending: false })
           .limit(1)
           .single();
 
@@ -56,7 +56,7 @@ const Index = () => {
           .from('articles' as any)
           .select('*')
           .eq('is_featured', false)
-          .order('published_at', { ascending: false })
+          .order('updated_at', { ascending: false })
           .limit(20);
 
         if (regularArticles) {
