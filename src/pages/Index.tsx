@@ -347,7 +347,7 @@ const Index = () => {
                 <AdBanner type="horizontal" size="medium" position="content" />
               </div>
 
-              {/* Articles Grid - 4 columns */}
+              {/* Articles by Category */}
               {loading ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
                   {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
@@ -355,52 +355,50 @@ const Index = () => {
                   ))}
                 </div>
               ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-                  {displayArticles.slice(0, 8).map((article) => (
-                    <NewsArticle
-                      key={article.id}
-                      title={article.title}
-                      image={getImageUrl(article)}
-                      category={article.category}
-                      tags={[article.category]}
-                      articleId={article.id}
-                      style="compact"
-                      authorName={article.author_name}
-                      publishedAt={article.published_at}
-                    />
-                  ))}
-                </div>
-              )}
-
-              {/* Ad Banner after first articles grid */}
-              <div className="mb-8">
-                <AdBanner type="horizontal" size="large" position="content" />
-              </div>
-
-              {/* More Articles Section */}
-              {displayArticles.length > 8 && (
-                <div className="mt-8">
-                  <h2 className="text-xl font-bold mb-4 text-foreground">עוד כתבות</h2>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {displayArticles.slice(8).map((article) => (
-                      <NewsArticle
-                        key={article.id}
-                        title={article.title}
-                        image={getImageUrl(article)}
-                        category={article.category}
-                        tags={[article.category]}
-                        articleId={article.id}
-                        authorName={article.author_name}
-                        publishedAt={article.published_at}
-                      />
-                    ))}
-                  </div>
-
-                  {/* Ad Banner after more articles */}
-                  <div className="mt-8">
-                    <AdBanner type="horizontal" size="medium" position="content" />
-                  </div>
-                </div>
+                <>
+                  {/* Group articles by category */}
+                  {(() => {
+                    const categories = Array.from(new Set(displayArticles.map(a => a.category)));
+                    return categories.map((category, categoryIndex) => {
+                      const categoryArticles = displayArticles.filter(a => a.category === category);
+                      if (categoryArticles.length === 0) return null;
+                      
+                      return (
+                        <div key={category} className="mb-12">
+                          {/* Category Header */}
+                          <div className="flex items-center gap-4 mb-6">
+                            <h2 className="text-2xl font-bold text-foreground">{category}</h2>
+                            <div className="flex-1 h-px bg-border"></div>
+                          </div>
+                          
+                          {/* Category Articles Grid */}
+                          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                            {categoryArticles.map((article) => (
+                              <NewsArticle
+                                key={article.id}
+                                title={article.title}
+                                image={getImageUrl(article)}
+                                category={article.category}
+                                tags={[article.category]}
+                                articleId={article.id}
+                                style="compact"
+                                authorName={article.author_name}
+                                publishedAt={article.published_at}
+                              />
+                            ))}
+                          </div>
+                          
+                          {/* Ad Banner after each category (except last) */}
+                          {categoryIndex < categories.length - 1 && (
+                            <div className="mt-8">
+                              <AdBanner type="horizontal" size="large" position="content" />
+                            </div>
+                          )}
+                        </div>
+                      );
+                    });
+                  })()}
+                </>
               )}
             </div>
 
