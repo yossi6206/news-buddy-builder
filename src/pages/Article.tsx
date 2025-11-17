@@ -67,9 +67,6 @@ const Article = () => {
         if (articleError) throw articleError;
         
         if (articleData) {
-          // Increment views count
-          await supabase.rpc('increment_article_views', { _article_id: id });
-
           // Load author profile
           const { data: profileData } = await supabase
             .from('profiles')

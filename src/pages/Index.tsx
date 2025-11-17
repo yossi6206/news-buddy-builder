@@ -11,7 +11,6 @@ import StockMarketWidget from "@/components/StockMarketWidget";
 import LiveVideoSection from "@/components/LiveVideoSection";
 import CategorySection from "@/components/CategorySection";
 import TrendingTopics from "@/components/TrendingTopics";
-import TrendingArticles from "@/components/TrendingArticles";
 import AdBanner from "@/components/AdBanner";
 import heroImage from "@/assets/hero-news.jpg";
 import politicsImage from "@/assets/politics-news.jpg";
@@ -405,23 +404,13 @@ const Index = () => {
 
             {/* Sidebar with Ads */}
             <div className="hidden lg:flex lg:flex-col gap-6">
-              {/* Trending Articles */}
-              <TrendingArticles />
-              
-              {/* Trending Topics */}
-              <TrendingTopics />
-              
-              {/* Weather Widget */}
-              <WeatherWidget />
-              
-              {/* Stock Market Widget */}
-              <StockMarketWidget />
+              {/* Ad Banner in sidebar */}
+              <AdBanner type="vertical" size="large" position="sidebar" />
               
               {/* Updates Sidebar - Right Side */}
               <UpdatesSidebar />
               
-              {/* Ad Banners in sidebar */}
-              <AdBanner type="vertical" size="large" position="sidebar" />
+              {/* Another Ad Banner in sidebar */}
               <AdBanner type="vertical" size="medium" />
             </div>
           </div>
