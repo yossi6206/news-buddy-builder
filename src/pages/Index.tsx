@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { cn } from "@/lib/utils";
 import NewsHeader from "@/components/NewsHeader";
 import BreakingNewsTicker from "@/components/BreakingNewsTicker";
 import UpdatesSidebar from "@/components/UpdatesSidebar";
@@ -12,7 +13,7 @@ import LiveVideoSection from "@/components/LiveVideoSection";
 import CategorySection from "@/components/CategorySection";
 import TrendingTopics from "@/components/TrendingTopics";
 import AdBanner from "@/components/AdBanner";
-import { Shield, Users, Globe, TrendingUp, Microscope, Trophy } from "lucide-react";
+import { Shield, Users, Globe, TrendingUp, Microscope, Trophy, Grid3x3, List } from "lucide-react";
 import heroImage from "@/assets/hero-news.jpg";
 import politicsImage from "@/assets/politics-news.jpg";
 import breakingImage from "@/assets/breaking-news.jpg";
@@ -35,6 +36,7 @@ const Index = () => {
   const [featuredArticle, setFeaturedArticle] = useState<Article | null>(null);
   const [articles, setArticles] = useState<Article[]>([]);
   const [loading, setLoading] = useState(true);
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
 
   // Category styling configuration
   const categoryConfig: Record<string, { icon: any; color: string; bgColor: string }> = {
@@ -358,6 +360,38 @@ const Index = () => {
                 <AdBanner type="horizontal" size="medium" position="content" />
               </div>
 
+              {/* View Mode Toggle */}
+              {!loading && displayArticles.length > 0 && (
+                <div className="flex justify-end mb-6">
+                  <div className="inline-flex items-center gap-1 bg-muted p-1 rounded-lg">
+                    <button
+                      onClick={() => setViewMode('grid')}
+                      className={cn(
+                        "flex items-center gap-2 px-4 py-2 rounded-md transition-all duration-300",
+                        viewMode === 'grid' 
+                          ? "bg-background shadow-sm text-primary" 
+                          : "text-muted-foreground hover:text-foreground"
+                      )}
+                    >
+                      <Grid3x3 className="w-4 h-4" />
+                      <span className="text-sm font-medium">גריד</span>
+                    </button>
+                    <button
+                      onClick={() => setViewMode('list')}
+                      className={cn(
+                        "flex items-center gap-2 px-4 py-2 rounded-md transition-all duration-300",
+                        viewMode === 'list' 
+                          ? "bg-background shadow-sm text-primary" 
+                          : "text-muted-foreground hover:text-foreground"
+                      )}
+                    >
+                      <List className="w-4 h-4" />
+                      <span className="text-sm font-medium">רשימה</span>
+                    </button>
+                  </div>
+                </div>
+              )}
+
               {/* Articles by Category */}
               {loading ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
@@ -394,8 +428,13 @@ const Index = () => {
                             <div className="flex-1 h-px bg-border"></div>
                           </div>
                           
-                          {/* Category Articles Grid */}
-                          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                          {/* Category Articles Grid/List */}
+                          <div className={cn(
+                            "transition-all duration-300",
+                            viewMode === 'grid' 
+                              ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4" 
+                              : "flex flex-col gap-4"
+                          )}>
                             {categoryArticles.map((article) => (
                               <NewsArticle
                                 key={article.id}
