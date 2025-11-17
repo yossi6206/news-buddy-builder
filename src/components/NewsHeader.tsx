@@ -1,10 +1,11 @@
-import { Search, LogIn, LogOut, Settings } from "lucide-react";
+import { LogIn, LogOut, Settings } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { useUserRole } from "@/hooks/useUserRole";
 import type { User as SupabaseUser } from "@supabase/supabase-js";
+import { SmartSearch } from "./SmartSearch";
 
 const NewsHeader = () => {
   const navigate = useNavigate();
@@ -82,6 +83,7 @@ const NewsHeader = () => {
             N12
           </Link>
           <div className="flex items-center gap-2">
+            <SmartSearch />
             {user ? (
               <>
                 <span className="text-sm hidden md:inline">{user.email}</span>
@@ -123,10 +125,7 @@ const NewsHeader = () => {
       {/* Navigation */}
       <nav className="bg-card border-b">
         <div className="container mx-auto px-4">
-          <div className="flex items-center justify-center py-3 relative">
-            <button className="absolute left-0 p-2 hover:bg-muted rounded-md transition-colors">
-              <Search className="h-5 w-5" />
-            </button>
+          <div className="flex items-center justify-center py-3">
             <div className="flex items-center gap-6 overflow-x-auto">
               {navItems.map((item, index) => (
                 <a
