@@ -12,6 +12,7 @@ import LiveVideoSection from "@/components/LiveVideoSection";
 import CategorySection from "@/components/CategorySection";
 import TrendingTopics from "@/components/TrendingTopics";
 import AdBanner from "@/components/AdBanner";
+import { Shield, Users, Globe, TrendingUp, Microscope, Trophy } from "lucide-react";
 import heroImage from "@/assets/hero-news.jpg";
 import politicsImage from "@/assets/politics-news.jpg";
 import breakingImage from "@/assets/breaking-news.jpg";
@@ -34,6 +35,16 @@ const Index = () => {
   const [featuredArticle, setFeaturedArticle] = useState<Article | null>(null);
   const [articles, setArticles] = useState<Article[]>([]);
   const [loading, setLoading] = useState(true);
+
+  // Category styling configuration
+  const categoryConfig: Record<string, { icon: any; color: string; bgColor: string }> = {
+    'ביטחוני': { icon: Shield, color: 'text-red-600', bgColor: 'bg-red-50 dark:bg-red-950/20' },
+    'פוליטי': { icon: Users, color: 'text-blue-600', bgColor: 'bg-blue-50 dark:bg-blue-950/20' },
+    'בעולם': { icon: Globe, color: 'text-green-600', bgColor: 'bg-green-50 dark:bg-green-950/20' },
+    'כלכלה': { icon: TrendingUp, color: 'text-purple-600', bgColor: 'bg-purple-50 dark:bg-purple-950/20' },
+    'מדעי': { icon: Microscope, color: 'text-cyan-600', bgColor: 'bg-cyan-50 dark:bg-cyan-950/20' },
+    'ספורט': { icon: Trophy, color: 'text-orange-600', bgColor: 'bg-orange-50 dark:bg-orange-950/20' },
+  };
 
   useEffect(() => {
     const fetchArticles = async () => {
@@ -363,11 +374,23 @@ const Index = () => {
                       const categoryArticles = displayArticles.filter(a => a.category === category);
                       if (categoryArticles.length === 0) return null;
                       
+                      const config = categoryConfig[category] || { 
+                        icon: Globe, 
+                        color: 'text-foreground', 
+                        bgColor: 'bg-muted' 
+                      };
+                      const CategoryIcon = config.icon;
+                      
                       return (
                         <div key={category} className="mb-12">
                           {/* Category Header */}
                           <div className="flex items-center gap-4 mb-6">
-                            <h2 className="text-2xl font-bold text-foreground">{category} ({categoryArticles.length})</h2>
+                            <div className={`flex items-center gap-3 px-4 py-2 rounded-lg ${config.bgColor}`}>
+                              <CategoryIcon className={`w-6 h-6 ${config.color}`} />
+                              <h2 className={`text-2xl font-bold ${config.color}`}>
+                                {category} ({categoryArticles.length})
+                              </h2>
+                            </div>
                             <div className="flex-1 h-px bg-border"></div>
                           </div>
                           
