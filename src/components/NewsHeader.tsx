@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { useUserRole } from "@/hooks/useUserRole";
 import type { User as SupabaseUser } from "@supabase/supabase-js";
 import { SmartSearch } from "./SmartSearch";
+import { ThemeToggle } from "./ThemeToggle";
 
 const NewsHeader = () => {
   const navigate = useNavigate();
@@ -83,6 +84,7 @@ const NewsHeader = () => {
             N12
           </Link>
           <div className="flex items-center gap-2">
+            <ThemeToggle />
             <SmartSearch />
             {user ? (
               <>
