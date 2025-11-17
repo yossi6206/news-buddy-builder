@@ -5,7 +5,6 @@ import BreakingNewsTicker from "@/components/BreakingNewsTicker";
 import NewsArticle from "@/components/NewsArticle";
 import NewsFooter from "@/components/NewsFooter";
 import CommentsSection from "@/components/CommentsSection";
-import { RelatedArticles } from "@/components/RelatedArticles";
 import { useUserRole } from "@/hooks/useUserRole";
 import { supabase } from "@/integrations/supabase/client";
 import { useState, useEffect } from "react";
@@ -221,16 +220,31 @@ const Article = () => {
 
             {/* Comments Section */}
             <CommentsSection articleId={id || ''} />
-
-            {/* Related Articles - Now in main content area */}
-            <RelatedArticles 
-              articles={relatedArticles} 
-              currentCategory={article.category}
-            />
           </div>
 
           {/* Sidebar */}
           <aside className="space-y-8">
+            {/* Related Articles */}
+            {relatedArticles.length > 0 && (
+              <div className="bg-card rounded-lg p-6 border border-border">
+                <h3 className="text-xl font-bold mb-4">כתבות קשורות</h3>
+                <div className="space-y-4">
+                  {relatedArticles.map((relatedArticle) => (
+                    <NewsArticle
+                      key={relatedArticle.id}
+                      articleId={relatedArticle.id}
+                      title={relatedArticle.title}
+                      image={relatedArticle.image_url || ''}
+                      category={relatedArticle.category}
+                      tags={[]}
+                      authorName={relatedArticle.author_name}
+                      publishedAt={relatedArticle.published_at || relatedArticle.created_at}
+                      style="compact"
+                    />
+                  ))}
+                </div>
+              </div>
+            )}
 
             {/* Newsletter Section */}
             <div className="bg-gradient-to-br from-primary/10 to-primary/5 rounded-lg p-6 border border-primary/20">
