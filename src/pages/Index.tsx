@@ -443,7 +443,7 @@ const Index = () => {
                                 category={article.category}
                                 tags={[article.category]}
                                 articleId={article.id}
-                                style="compact"
+                                style={viewMode === 'list' ? 'list' : 'compact'}
                                 authorName={article.author_name}
                                 publishedAt={article.published_at}
                               />
