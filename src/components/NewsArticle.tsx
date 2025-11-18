@@ -68,7 +68,7 @@ const NewsArticle = ({
   if (isList) {
     return (
       <Link to={`/article/${articleId}`} className={cn("group cursor-pointer block", className)}>
-        <div className="bg-card rounded-xl overflow-hidden hover:bg-muted/30 transition-all duration-300 border border-border/50 hover:border-primary/30">
+        <div className="bg-card rounded-xl overflow-hidden hover:bg-muted/30 transition-all duration-500 ease-out border border-border/50 hover:border-primary/30 hover:shadow-lg hover:-translate-y-1">
           <div className="flex gap-4 p-4">
             {/* Image section */}
             <div className="relative overflow-hidden rounded-lg flex-shrink-0 w-64 h-40">
@@ -128,7 +128,7 @@ const NewsArticle = ({
   if (isCompact) {
     return (
       <Link to={`/article/${articleId}`} className={cn("group cursor-pointer block", className)}>
-        <div className="bg-card rounded-xl overflow-hidden hover:bg-muted/30 transition-colors">
+        <div className="bg-card rounded-xl overflow-hidden hover:bg-muted/30 transition-all duration-500 ease-out border border-border/50 hover:border-primary/30 hover:shadow-lg hover:-translate-y-1">
           <div className="relative overflow-hidden rounded-t-xl">
             <img
               src={image}
@@ -160,8 +160,8 @@ const NewsArticle = ({
   }
   
   return (
-    <Link to={`/article/${articleId}`} className={cn("group cursor-pointer animate-fade-in block", className)}>
-      <div className="bg-card rounded-xl overflow-hidden article-hover" style={{ boxShadow: 'var(--shadow-article)' }}>
+    <Link to={`/article/${articleId}`} className={cn("group cursor-pointer block", className)}>
+      <div className="bg-card rounded-xl overflow-hidden article-hover border border-border/50 hover:border-primary/30" style={{ boxShadow: 'var(--shadow-article)' }}>
         <div className="relative overflow-hidden rounded-t-xl">
           <img
             src={image}
