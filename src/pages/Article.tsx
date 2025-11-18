@@ -1,10 +1,11 @@
 import { useParams, Link } from "react-router-dom";
-import { ArrowRight, Share2, Bookmark, Clock, User as UserIcon, Edit, Loader2 } from "lucide-react";
+import { ArrowRight, Bookmark, Clock, User as UserIcon, Edit, Loader2 } from "lucide-react";
 import NewsHeader from "@/components/NewsHeader";
 import BreakingNewsTicker from "@/components/BreakingNewsTicker";
 import NewsArticle from "@/components/NewsArticle";
 import NewsFooter from "@/components/NewsFooter";
 import CommentsSection from "@/components/CommentsSection";
+import ShareButtons from "@/components/ShareButtons";
 import { useUserRole } from "@/hooks/useUserRole";
 import { supabase } from "@/integrations/supabase/client";
 import { useState, useEffect } from "react";
@@ -185,18 +186,15 @@ const Article = () => {
             </div>
 
             {/* Action Buttons */}
-            <div className="flex gap-3 mb-8">
-              <button className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors">
-                <Share2 className="h-4 w-4" />
-                שתף
-              </button>
-              <button className="flex items-center gap-2 px-4 py-2 border border-border rounded-lg hover:bg-muted transition-colors">
-                <Bookmark className="h-4 w-4" />
+            <div className="flex flex-wrap gap-3 mb-8 animate-slide-in-right">
+              <ShareButtons title={article.title} />
+              <button className="flex items-center gap-2 px-4 py-2 border border-border rounded-lg hover:bg-muted hover:border-primary/30 transition-all duration-300 hover:shadow-md group">
+                <Bookmark className="h-4 w-4 transition-transform duration-300 group-hover:scale-110" />
                 שמור לקריאה
               </button>
               {canManageContent && (
                 <Link to={`/admin/${id}`}>
-                  <Button variant="outline" className="flex items-center gap-2">
+                  <Button variant="outline" className="flex items-center gap-2 hover:shadow-md transition-all duration-300">
                     <Edit className="h-4 w-4" />
                     ערוך כתבה
                   </Button>
