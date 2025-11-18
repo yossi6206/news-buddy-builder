@@ -83,7 +83,7 @@ const ShareButtons = ({ title, url, className }: ShareButtonsProps) => {
           />
           
           {/* Share Menu */}
-          <div className="absolute top-full left-0 mt-2 z-50 animate-fade-in-scale">
+          <div className="absolute top-full right-0 mt-2 z-50 animate-fade-in-scale">
             <div className="bg-card border border-border rounded-xl shadow-2xl p-3 min-w-[280px]">
               <p className="text-sm font-semibold text-foreground mb-3 px-2">שתף את הכתבה</p>
               
