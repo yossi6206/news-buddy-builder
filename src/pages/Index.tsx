@@ -405,17 +405,7 @@ const Index = () => {
                       const CategoryIcon = config.icon;
                       
                       return (
-                        <div key={category} className="mb-12">
-                          {/* Category Header */}
-                          <div className="flex items-center gap-4 mb-6">
-                            <div className={`flex items-center gap-3 px-4 py-2 rounded-lg ${config.bgColor}`}>
-                              <CategoryIcon className={`w-6 h-6 ${config.color}`} />
-                              <h2 className={`text-2xl font-bold ${config.color}`}>
-                                {category} ({categoryArticles.length})
-                              </h2>
-                            </div>
-                            <div className="flex-1 h-px bg-border"></div>
-                          </div>
+                        <div key={category} className="mb-8">
                           
                           {/* Category Articles Grid */}
                           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
