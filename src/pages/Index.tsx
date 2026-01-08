@@ -408,7 +408,7 @@ const Index = () => {
                         <div key={category} className="mb-8">
                           
                           {/* Category Articles Grid */}
-                          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                             {categoryArticles.map((article) => (
                               <NewsCard
                                 key={article.id}

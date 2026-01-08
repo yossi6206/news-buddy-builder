@@ -77,12 +77,7 @@ const NewsCard = ({
     >
       <article className="h-full flex flex-col">
         {/* Image Container */}
-        <div
-          className={cn(
-            "relative overflow-hidden rounded-xl border-t-4",
-            getCategoryBorderColor(category || "")
-          )}
-        >
+        <div className="relative overflow-hidden rounded-xl">
           <div className="aspect-[16/10] overflow-hidden">
             <img
               src={image}
