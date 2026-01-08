@@ -381,60 +381,29 @@ const Index = () => {
               </div>
 
 
-              {/* Articles by Category */}
+              {/* All Articles Grid */}
               {loading ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                   {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
-                    <div key={i} className="h-72 bg-muted animate-pulse" />
+                    <div key={i} className="h-72 bg-muted animate-pulse rounded-xl" />
                   ))}
                 </div>
               ) : (
-                <>
-                  {/* Group articles by category */}
-                  {(() => {
-                    const categories = Array.from(new Set(displayArticles.map(a => a.category)));
-                    return categories.map((category, categoryIndex) => {
-                      const categoryArticles = displayArticles.filter(a => a.category === category);
-                      if (categoryArticles.length === 0) return null;
-                      
-                      const config = categoryConfig[category] || { 
-                        icon: Globe, 
-                        color: 'text-foreground', 
-                        bgColor: 'bg-muted' 
-                      };
-                      const CategoryIcon = config.icon;
-                      
-                      return (
-                        <div key={category} className="mb-8">
-                          
-                          {/* Category Articles Grid */}
-                          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                            {categoryArticles.map((article) => (
-                              <NewsCard
-                                key={article.id}
-                                title={article.title}
-                                subtitle={article.subtitle}
-                                image={getImageUrl(article)}
-                                category={article.category}
-                                articleId={article.id}
-                                authorName={article.author_name}
-                                publishedAt={article.published_at}
-                                commentsCount={Math.floor(Math.random() * 50)}
-                              />
-                            ))}
-                          </div>
-                          
-                          {/* Ad Banner after each category (except last) */}
-                          {categoryIndex < categories.length - 1 && (
-                            <div className="mt-8">
-                              <AdBanner type="horizontal" size="large" position="content" />
-                            </div>
-                          )}
-                        </div>
-                      );
-                    });
-                  })()}
-                </>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                  {displayArticles.map((article) => (
+                    <NewsCard
+                      key={article.id}
+                      title={article.title}
+                      subtitle={article.subtitle}
+                      image={getImageUrl(article)}
+                      category={article.category}
+                      articleId={article.id}
+                      authorName={article.author_name}
+                      publishedAt={article.published_at}
+                      commentsCount={Math.floor(Math.random() * 50)}
+                    />
+                  ))}
+                </div>
               )}
             </div>
 
