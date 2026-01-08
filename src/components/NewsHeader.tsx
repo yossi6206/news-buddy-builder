@@ -81,7 +81,7 @@ const NewsHeader = () => {
             <span className="text-sm">החדשות</span>
           </div>
           <Link to="/" className="text-3xl font-bold tracking-wider hover:opacity-90 transition-opacity">
-            N12
+            NEWS
           </Link>
           <div className="flex items-center gap-2">
             <ThemeToggle />
