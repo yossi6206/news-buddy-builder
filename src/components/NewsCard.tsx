@@ -18,15 +18,15 @@ interface NewsCardProps {
 
 const getCategoryBadgeColor = (category: string) => {
   const colors: Record<string, string> = {
-    פוליטי: "bg-red-600",
-    ביטחוני: "bg-red-700",
-    בעולם: "bg-green-600",
-    כלכלה: "bg-purple-600",
-    מדעי: "bg-cyan-600",
-    ספורט: "bg-orange-500",
-    טכנולוגיה: "bg-blue-600",
+    פוליטי: "bg-[#d32f2f]",
+    ביטחוני: "bg-[#c62828]",
+    בעולם: "bg-[#2e7d32]",
+    כלכלה: "bg-[#7b1fa2]",
+    מדעי: "bg-[#0097a7]",
+    ספורט: "bg-[#f57c00]",
+    טכנולוגיה: "bg-[#1976d2]",
   };
-  return colors[category || ""] || "bg-primary";
+  return colors[category || ""] || "bg-[#d32f2f]";
 };
 
 const NewsCard = ({
@@ -90,7 +90,7 @@ const NewsCard = ({
           {/* Category Badge */}
           {category && (
             <div className={cn(
-              "absolute top-3 right-3 px-3 py-1 text-xs font-bold text-white rounded",
+              "absolute top-2 right-2 px-2 py-0.5 text-[10px] font-bold text-white rounded",
               getCategoryBadgeColor(category)
             )}>
               {category}
