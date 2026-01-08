@@ -5,7 +5,7 @@ import NewsHeader from "@/components/NewsHeader";
 import BreakingNewsTicker from "@/components/BreakingNewsTicker";
 import UpdatesSidebar from "@/components/UpdatesSidebar";
 import HeroArticle from "@/components/HeroArticle";
-import NewsArticle from "@/components/NewsArticle";
+import NewsCard from "@/components/NewsCard";
 import NewsFooter from "@/components/NewsFooter";
 import WeatherWidget from "@/components/WeatherWidget";
 import StockMarketWidget from "@/components/StockMarketWidget";
@@ -13,7 +13,7 @@ import LiveVideoSection from "@/components/LiveVideoSection";
 import CategorySection from "@/components/CategorySection";
 import TrendingTopics from "@/components/TrendingTopics";
 import AdBanner from "@/components/AdBanner";
-import { Shield, Users, Globe, TrendingUp, Microscope, Trophy, Grid3x3, List } from "lucide-react";
+import { Shield, Users, Globe, TrendingUp, Microscope, Trophy } from "lucide-react";
 import heroImage from "@/assets/hero-news.jpg";
 import politicsImage from "@/assets/politics-news.jpg";
 import breakingImage from "@/assets/breaking-news.jpg";
@@ -36,7 +36,7 @@ const Index = () => {
   const [featuredArticle, setFeaturedArticle] = useState<Article | null>(null);
   const [articles, setArticles] = useState<Article[]>([]);
   const [loading, setLoading] = useState(true);
-  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  
 
   // Category styling configuration
   const categoryConfig: Record<string, { icon: any; color: string; bgColor: string }> = {
@@ -90,6 +90,7 @@ const Index = () => {
     {
       id: "2",
       title: "פגישת ראש הממשלה עם שרי הממשלה בנושא המצב הביטחוני",
+      subtitle: "דיון מעמיק על האתגרים הביטחוניים והצעדים הנדרשים לשמירה על ביטחון האזרחים",
       image: politicsImage,
       category: "פוליטי",
       tags: ["ממשלה", "ביטחון", "נתניהו"],
@@ -100,6 +101,7 @@ const Index = () => {
     {
       id: "3",
       title: "דיווח חדש: מכה גדולה לישראל - חמאס מסרב לשחרר חטופים נוספים",
+      subtitle: "צפו בפרק השני של סדרת הדוקו המטלטלת",
       image: breakingImage,
       category: "ביטחוני",
       tags: ["חטופים", "עזה", "דחוף"],
@@ -110,6 +112,7 @@ const Index = () => {
     {
       id: "4",
       title: "הנשיא האמריקאי דן עם מנהיגי העולם על המצב במזרח התיכון",
+      subtitle: "במאות אלפי שקלים - מסעדות, קייטרינג ואירועי רווחה לשופטים",
       image: internationalImage,
       category: "בעולם",
       tags: ['ארה"ב', "דיפלומטיה", "עולם"],
@@ -120,6 +123,7 @@ const Index = () => {
     {
       id: "5",
       title: "שוק ההון בתנודות חדות: המשקיעים חוששים ממיתון כלכלי",
+      subtitle: "חקירות מורכבות נמשכות זמן, נעדכן כשיגיע הזמן",
       image: economyImage,
       category: "כלכלה",
       tags: ["בורסה", "כלכלה", "שוק"],
@@ -130,6 +134,7 @@ const Index = () => {
     {
       id: "6",
       title: "חדשנות ישראלית: סטארט-אפ מקומי מפתח טכנולוגיה פורצת דרך",
+      subtitle: "המילה הנבחרת זכתה ל-25% מהקולות בהצבעת הציבור",
       image: techImage,
       category: "מדעי",
       tags: ["סטארטאפ", "טכנולוגיה", "חדשנות"],
@@ -140,6 +145,7 @@ const Index = () => {
     {
       id: "7",
       title: "מפעל אינטל בקריית גת מרחיב פעילות: 2,000 משרות חדשות",
+      subtitle: "הודעה על גיוס עובדים חדשים למפעל הייטק המוביל",
       image: techImage,
       category: "כלכלה",
       tags: ["תעסוקה", "הייטק", "קריית גת"],
@@ -150,6 +156,7 @@ const Index = () => {
     {
       id: "8",
       title: "משרד החינוך מכריז על רפורמה חדשה בבתי הספר התיכוניים",
+      subtitle: "שינויים מהותיים צפויים במערכת החינוך הישראלית",
       image: politicsImage,
       category: "פוליטי",
       tags: ["חינוך", "רפורמה", "בתי ספר"],
@@ -160,6 +167,7 @@ const Index = () => {
     {
       id: "9",
       title: "נבחרת ישראל בכדורסל עלתה לגמר אליפות אירופה",
+      subtitle: "ניצחון מרגש על האלופה האירופית",
       image: breakingImage,
       category: "ספורט",
       tags: ["כדורסל", "ספורט", "אליפות"],
@@ -170,6 +178,7 @@ const Index = () => {
     {
       id: "10",
       title: "משבר דיפלומטי: ישראל מזמנת את שגריר צרפת להבהרות",
+      subtitle: "מתח גובר ביחסים בין ירושלים לפריז",
       image: internationalImage,
       category: "בעולם",
       tags: ["דיפלומטיה", "צרפת", "משבר"],
@@ -180,6 +189,7 @@ const Index = () => {
     {
       id: "11",
       title: "מחקר חדש: תרופה ישראלית מוכיחה יעילות בטיפול בסרטן",
+      subtitle: "פריצת דרך מדעית ישראלית מעוררת תקווה",
       image: techImage,
       category: "מדעי",
       tags: ["רפואה", "מחקר", "סרטן"],
@@ -190,6 +200,7 @@ const Index = () => {
     {
       id: "12",
       title: "המחאה ממשיכה: אלפים מפגינים מול הכנסת נגד הרפורמה המשפטית",
+      subtitle: "מחאה נרחבת בכל רחבי הארץ",
       image: politicsImage,
       category: "פוליטי",
       tags: ["מחאה", "רפורמה", "דמוקרטיה"],
@@ -200,6 +211,7 @@ const Index = () => {
     {
       id: "13",
       title: "מזג האויר: גל חום קיצוני צפוי במרכז הארץ בסוף השבוע",
+      subtitle: "טמפרטורות גבוהות מהרגיל צפויות ברחבי הארץ",
       image: economyImage,
       category: "בעולם",
       tags: ["מזג אוויר", "חום", "קיץ"],
@@ -210,6 +222,7 @@ const Index = () => {
     {
       id: "14",
       title: "משרד האוצר מציג תוכנית חדשה להקלות במס לעסקים קטנים",
+      subtitle: "הקלות משמעותיות לבעלי עסקים קטנים ובינוניים",
       image: economyImage,
       category: "כלכלה",
       tags: ["מיסים", "עסקים", "אוצר"],
@@ -220,6 +233,7 @@ const Index = () => {
     {
       id: "15",
       title: "רכבת ישראל משיקה קו חדש: תל אביב-אילת תוך 3 שעות",
+      subtitle: "פרויקט תחבורה ענק שישנה את פני הנסיעות בישראל",
       image: techImage,
       category: "מדעי",
       tags: ["תחבורה", "רכבת", "אילת"],
@@ -230,6 +244,7 @@ const Index = () => {
     {
       id: "16",
       title: "ביקורת המדינה: ליקויים חמורים בניהול משבר הקורונה",
+      subtitle: "דו״ח מפורט על כשלים בניהול המשבר הבריאותי",
       image: politicsImage,
       category: "פוליטי",
       tags: ["ביקורת", "קורונה", "ממשלה"],
@@ -240,6 +255,7 @@ const Index = () => {
     {
       id: "17",
       title: "גל התייקרות: מחירי הדלק עלו ב-8% החודש",
+      subtitle: "עליית מחירים משמעותית צפויה להשפיע על יוקר המחיה",
       image: economyImage,
       category: "כלכלה",
       tags: ["מחירים", "דלק", "התייקרות"],
@@ -250,6 +266,7 @@ const Index = () => {
     {
       id: "18",
       title: 'האו"ם דן היום בהצעה ישראלית לסיום המלחמה בעזה',
+      subtitle: "דיון בינלאומי על עתיד המזרח התיכון",
       image: internationalImage,
       category: "בעולם",
       tags: ["אום", "עזה", "מלחמה"],
@@ -260,6 +277,7 @@ const Index = () => {
     {
       id: "19",
       title: "מכבי תל אביב מנצחת את ריאל מדריד במשחק מרגש",
+      subtitle: "ניצחון היסטורי בליגה האירופית",
       image: breakingImage,
       category: "ספורט",
       tags: ["כדורסל", "מכבי תל אביב", "יורוליג"],
@@ -270,6 +288,7 @@ const Index = () => {
     {
       id: "20",
       title: "הפועל ירושלים עולה למקום הראשון בליגה",
+      subtitle: "הקבוצה מובילה אחרי סדרת ניצחונות",
       image: politicsImage,
       category: "ספורט",
       tags: ["כדורגל", "הפועל ירושלים", "ליגה"],
@@ -280,6 +299,7 @@ const Index = () => {
     {
       id: "21",
       title: "נבחרת הנוער זוכה בגביע אליפות אסיה",
+      subtitle: "הנוער הישראלי מככב בזירה הבינלאומית",
       image: techImage,
       category: "ספורט",
       tags: ["נבחרת נוער", "כדורגל", "אסיה"],
@@ -360,37 +380,6 @@ const Index = () => {
                 <AdBanner type="horizontal" size="medium" position="content" />
               </div>
 
-              {/* View Mode Toggle */}
-              {!loading && displayArticles.length > 0 && (
-                <div className="flex justify-end mb-6">
-                  <div className="inline-flex items-center gap-1 bg-muted p-1 rounded-lg">
-                    <button
-                      onClick={() => setViewMode('grid')}
-                      className={cn(
-                        "flex items-center gap-2 px-4 py-2 rounded-md transition-all duration-300",
-                        viewMode === 'grid' 
-                          ? "bg-background shadow-sm text-primary" 
-                          : "text-muted-foreground hover:text-foreground"
-                      )}
-                    >
-                      <Grid3x3 className="w-4 h-4" />
-                      <span className="text-sm font-medium">גריד</span>
-                    </button>
-                    <button
-                      onClick={() => setViewMode('list')}
-                      className={cn(
-                        "flex items-center gap-2 px-4 py-2 rounded-md transition-all duration-300",
-                        viewMode === 'list' 
-                          ? "bg-background shadow-sm text-primary" 
-                          : "text-muted-foreground hover:text-foreground"
-                      )}
-                    >
-                      <List className="w-4 h-4" />
-                      <span className="text-sm font-medium">רשימה</span>
-                    </button>
-                  </div>
-                </div>
-              )}
 
               {/* Articles by Category */}
               {loading ? (
@@ -428,24 +417,19 @@ const Index = () => {
                             <div className="flex-1 h-px bg-border"></div>
                           </div>
                           
-                          {/* Category Articles Grid/List */}
-                          <div className={cn(
-                            "transition-all duration-300",
-                            viewMode === 'grid' 
-                              ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4" 
-                              : "flex flex-col gap-4"
-                          )}>
+                          {/* Category Articles Grid */}
+                          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                             {categoryArticles.map((article) => (
-                              <NewsArticle
+                              <NewsCard
                                 key={article.id}
                                 title={article.title}
+                                subtitle={article.subtitle}
                                 image={getImageUrl(article)}
                                 category={article.category}
-                                tags={[article.category]}
                                 articleId={article.id}
-                                style={viewMode === 'list' ? 'list' : 'compact'}
                                 authorName={article.author_name}
                                 publishedAt={article.published_at}
+                                commentsCount={Math.floor(Math.random() * 50)}
                               />
                             ))}
                           </div>
