@@ -31,9 +31,9 @@ const NewsFooter = () => {
 
         <div className="border-t pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <div className="text-3xl font-bold text-primary">N12</div>
+            <div className="text-3xl font-bold text-primary">NEWS</div>
             <div className="text-sm text-muted-foreground text-center">
-              © 2025 N12 כל הזכויות שמורות | תנאי שימוש | מדיניות פרטיות
+              © 2025 NEWS כל הזכויות שמורות | תנאי שימוש | מדיניות פרטיות
             </div>
           </div>
         </div>
