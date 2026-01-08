@@ -16,16 +16,17 @@ interface NewsCardProps {
   className?: string;
 }
 
-const getCategoryBorderColor = (category: string) => {
+const getCategoryBadgeColor = (category: string) => {
   const colors: Record<string, string> = {
-    פוליטי: "border-t-blue-500",
-    ביטחוני: "border-t-red-500",
-    בעולם: "border-t-green-500",
-    כלכלה: "border-t-purple-500",
-    מדעי: "border-t-cyan-500",
-    ספורט: "border-t-orange-500",
+    פוליטי: "bg-red-600",
+    ביטחוני: "bg-red-700",
+    בעולם: "bg-green-600",
+    כלכלה: "bg-purple-600",
+    מדעי: "bg-cyan-600",
+    ספורט: "bg-orange-500",
+    טכנולוגיה: "bg-blue-600",
   };
-  return colors[category || ""] || "border-t-cyan-400";
+  return colors[category || ""] || "bg-primary";
 };
 
 const NewsCard = ({
@@ -85,6 +86,16 @@ const NewsCard = ({
               className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
             />
           </div>
+
+          {/* Category Badge */}
+          {category && (
+            <div className={cn(
+              "absolute top-3 right-3 px-3 py-1 text-xs font-bold text-white rounded",
+              getCategoryBadgeColor(category)
+            )}>
+              {category}
+            </div>
+          )}
 
           {/* Video Play Button Overlay */}
           {isVideo && (
