@@ -351,7 +351,6 @@ const Index = () => {
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <NewsHeader />
-      <BreakingNewsTicker />
       
       <main className="flex-1">
         <div className="container mx-auto px-4 py-6">
