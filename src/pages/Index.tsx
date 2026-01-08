@@ -355,70 +355,51 @@ const Index = () => {
       
       <main className="flex-1">
         <div className="container mx-auto px-4 py-6">
-          {/* Main Layout with Sidebar */}
-          <div className="flex gap-6">
-            {/* Main Content */}
-            <div className="flex-1">
-              {/* Hero Article */}
-              <div className="mb-6">
-                {loading ? (
-                  <div className="h-[380px] bg-muted animate-pulse" />
-                ) : (
-                  <HeroArticle
-                    title={displayFeatured.title}
-                    subtitle={displayFeatured.subtitle || ""}
-                    image={getImageUrl(displayFeatured)}
-                    articleId={displayFeatured.id}
-                    authorName={displayFeatured.author_name}
-                    publishedAt={displayFeatured.published_at}
-                  />
-                )}
-              </div>
-
-              {/* Ad Banner after Hero */}
-              <div className="mb-6">
-                <AdBanner type="horizontal" size="medium" position="content" />
-              </div>
-
-
-              {/* All Articles Grid */}
-              {loading ? (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                  {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
-                    <div key={i} className="h-72 bg-muted animate-pulse rounded-xl" />
-                  ))}
-                </div>
-              ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                  {displayArticles.map((article) => (
-                    <NewsCard
-                      key={article.id}
-                      title={article.title}
-                      subtitle={article.subtitle}
-                      image={getImageUrl(article)}
-                      category={article.category}
-                      articleId={article.id}
-                      authorName={article.author_name}
-                      publishedAt={article.published_at}
-                      commentsCount={Math.floor(Math.random() * 50)}
-                    />
-                  ))}
-                </div>
-              )}
-            </div>
-
-            {/* Sidebar with Ads */}
-            <div className="hidden lg:flex lg:flex-col gap-6">
-              {/* Ad Banner in sidebar */}
-              <AdBanner type="vertical" size="large" position="sidebar" />
-              
-              {/* Updates Sidebar - Right Side */}
-              <UpdatesSidebar />
-              
-              {/* Another Ad Banner in sidebar */}
-              <AdBanner type="vertical" size="medium" />
-            </div>
+          {/* Hero Article */}
+          <div className="mb-6">
+            {loading ? (
+              <div className="h-[380px] bg-muted animate-pulse" />
+            ) : (
+              <HeroArticle
+                title={displayFeatured.title}
+                subtitle={displayFeatured.subtitle || ""}
+                image={getImageUrl(displayFeatured)}
+                articleId={displayFeatured.id}
+                authorName={displayFeatured.author_name}
+                publishedAt={displayFeatured.published_at}
+              />
+            )}
           </div>
+
+          {/* Ad Banner after Hero */}
+          <div className="mb-6">
+            <AdBanner type="horizontal" size="medium" position="content" />
+          </div>
+
+          {/* All Articles Grid */}
+          {loading ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+              {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
+                <div key={i} className="h-72 bg-muted animate-pulse rounded-xl" />
+              ))}
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+              {displayArticles.map((article) => (
+                <NewsCard
+                  key={article.id}
+                  title={article.title}
+                  subtitle={article.subtitle}
+                  image={getImageUrl(article)}
+                  category={article.category}
+                  articleId={article.id}
+                  authorName={article.author_name}
+                  publishedAt={article.published_at}
+                  commentsCount={Math.floor(Math.random() * 50)}
+                />
+              ))}
+            </div>
+          )}
         </div>
       </main>
 
