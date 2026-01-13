@@ -370,14 +370,7 @@ const Index = () => {
             )}
           </div>
 
-          {/* Widgets Strip */}
-          <div className="mb-6 space-y-0 border rounded-lg overflow-hidden">
-            <WeatherWidget />
-            <StockMarketWidget />
-            <TrendingTopics />
-          </div>
-
-          {/* Ad Banner after Widgets */}
+          {/* Ad Banner after Hero */}
           <div className="mb-6">
             <AdBanner type="horizontal" size="medium" position="content" />
           </div>
