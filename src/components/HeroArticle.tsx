@@ -15,7 +15,7 @@ const HeroArticle = ({ title, subtitle, image, articleId = "1", authorName = "כ
     <Link to={`/article/${articleId}`} className="group cursor-pointer block">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-0 rounded-xl overflow-hidden bg-[#d32f2f]">
         {/* Image Section */}
-        <div className="relative h-[300px] md:h-[400px] overflow-hidden order-1 md:order-2">
+        <div className="relative h-[350px] md:h-[450px] overflow-hidden order-1 md:order-2">
           <img
             src={image}
             alt={title}
@@ -24,7 +24,7 @@ const HeroArticle = ({ title, subtitle, image, articleId = "1", authorName = "כ
         </div>
 
         {/* Content Section */}
-        <div className="relative h-[300px] md:h-[400px] flex flex-col justify-center p-8 order-2 md:order-1">
+        <div className="relative h-[350px] md:h-[450px] flex flex-col justify-center p-8 order-2 md:order-1">
           <h1 className="text-3xl md:text-4xl font-bold leading-tight mb-4 text-white">
             {title}
           </h1>
