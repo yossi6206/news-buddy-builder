@@ -13,7 +13,7 @@ interface HeroArticleProps {
 const HeroArticle = ({ title, subtitle, image, articleId = "1", authorName = "כתב ערוץ החדשות", publishedAt, commentsCount = 0 }: HeroArticleProps) => {
   return (
     <Link to={`/article/${articleId}`} className="group cursor-pointer block">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-0 rounded-xl overflow-hidden bg-[#1a1f3c]">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-0 rounded-xl overflow-hidden bg-[#d32f2f]">
         {/* Image Section */}
         <div className="relative h-[300px] md:h-[400px] overflow-hidden order-1 md:order-2">
           <img
