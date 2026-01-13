@@ -13,6 +13,7 @@ import LiveVideoSection from "@/components/LiveVideoSection";
 import CategorySection from "@/components/CategorySection";
 import TrendingTopics from "@/components/TrendingTopics";
 import AdBanner from "@/components/AdBanner";
+import FeaturedNewsGrid from "@/components/FeaturedNewsGrid";
 import { Shield, Users, Globe, TrendingUp, Microscope, Trophy } from "lucide-react";
 import heroImage from "@/assets/hero-news.jpg";
 import politicsImage from "@/assets/politics-news.jpg";
@@ -383,21 +384,36 @@ const Index = () => {
               ))}
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-              {displayArticles.map((article) => (
-                <NewsCard
-                  key={article.id}
-                  title={article.title}
-                  subtitle={article.subtitle}
-                  image={getImageUrl(article)}
-                  category={article.category}
-                  articleId={article.id}
-                  authorName={article.author_name}
-                  publishedAt={article.published_at}
-                  commentsCount={Math.floor(Math.random() * 50)}
-                />
-              ))}
-            </div>
+            <>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-10">
+                {displayArticles.map((article) => (
+                  <NewsCard
+                    key={article.id}
+                    title={article.title}
+                    subtitle={article.subtitle}
+                    image={getImageUrl(article)}
+                    category={article.category}
+                    articleId={article.id}
+                    authorName={article.author_name}
+                    publishedAt={article.published_at}
+                    commentsCount={Math.floor(Math.random() * 50)}
+                  />
+                ))}
+              </div>
+
+              {/* Featured News Grid */}
+              <FeaturedNewsGrid 
+                articles={displayArticles.slice(0, 6).map(article => ({
+                  id: article.id,
+                  title: article.title,
+                  category: article.category,
+                  image: getImageUrl(article),
+                  authorName: article.author_name,
+                  publishedAt: article.published_at,
+                }))}
+                className="mb-8"
+              />
+            </>
           )}
         </div>
       </main>
