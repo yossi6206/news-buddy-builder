@@ -370,8 +370,8 @@ const Index = () => {
             )}
           </div>
 
-          {/* Widgets Row - Weather, Stock Market, Trending */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+          {/* Widgets Strip */}
+          <div className="mb-6 space-y-0 border rounded-lg overflow-hidden">
             <WeatherWidget />
             <StockMarketWidget />
             <TrendingTopics />
